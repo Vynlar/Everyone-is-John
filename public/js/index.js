@@ -61,4 +61,3 @@ document.addEventListener('DOMContentLoaded', function() { TweenMax.set(title.pa
 
 newGame.addEventListener('click', createNewGame);
 joinGameButton.addEventListener('click', joinGame);
->>>>>>> 75e62e23045f3f7b687422ebdc167e259b6697be

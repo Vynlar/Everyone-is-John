@@ -103,6 +103,7 @@ class Player
     if !@bid?
       @bid = bid
   spend: (value) ->
+    if value > @willpower then return
     @willpower -= value
   setUsername: (username) ->
     @username = username

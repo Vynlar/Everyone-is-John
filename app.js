@@ -207,6 +207,9 @@
     };
 
     Player.prototype.spend = function(value) {
+      if (value > this.willpower) {
+        return;
+      }
       return this.willpower -= value;
     };
 
