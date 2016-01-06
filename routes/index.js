@@ -5,10 +5,10 @@ var router = express.Router();
 router.get('/game/create', function(req, res) {
 	var length = 16;
 	var id = Math.round((Math.pow(36, length + 1) - Math.random() * Math.pow(36, length))).toString(36).slice(1);
-	while(this.roomManager.roomExists(id)) {
+	/* while(this.roomManager.roomExists(id)) {
 		id = Math.round((Math.pow(36, length + 1) - Math.random() * Math.pow(36, length))).toString(36).slice(1);
 	}
-	console.log(this.roomManager.addRoom(id));
+	console.log(this.roomManager.addRoom(id)); */
 	res.redirect(301, '/game/' + id);
 });
 
