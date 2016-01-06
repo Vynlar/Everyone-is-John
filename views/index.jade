@@ -1,0 +1,21 @@
+extends layout
+
+block content
+	section#banner.header
+		#title
+			h2 Everyone is John
+		br
+		input(type='text',placeholder="XXXX-XXXX")#gameId
+		
+	#main.container
+		.row#buttons
+			div(class="3u 0u$(small)") &nbsp;
+			div(class="3u 12u$(small)")
+				a(href="#").button.special.big#newGame Create Game
+			div(class="3u 12u$(small)")
+				a(href="#").button.special.big#joinGame Join Game
+			div(class="3u 0u$(small)") &nbsp;
+			
+	script(src='/js/index.js')
+			
+			

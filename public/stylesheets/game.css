@@ -1,0 +1,137 @@
+
+html, body { 
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+	font-family: Arial; /* VT323 */
+}
+#mainContainer { margin:0;  height:100%;}
+
+#range {
+	background:#FFF;
+	height:100%;
+	z-index:1;
+	padding-top: 0;
+	position:relative;
+}
+
+#range header h2 {
+	font-size:3em;
+	margin:0 0 0.25em 0;
+}
+
+#range #counter h1 {
+	font-size:6em;
+	color: #BBB;
+	margin:0;
+	padding:0;
+}
+
+#section2 {
+	background:tramsparent;
+	height:100%;
+}
+
+#range #bid {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	bottom: 1em;
+}
+
+#range #bid #bidButton {
+	width:75%;
+}
+
+#range #slider {
+	width:75%;
+	height:75%;
+	background:transparent;
+	position:absolute;
+	top:7.5em; /* 6.5em */
+	left:50%;
+	transform:translateX(-50%);
+}
+
+#range #sliderButtons {
+	height:100%;
+}
+
+#range #sliderButtons li {
+	padding:0;
+	width: 100%;
+}
+
+#range #sliderButtons li a {
+	border-radius: 0;
+	min-width:100%;
+	min-height:100%;
+	max-height:100%;
+	font-size: 2em; /* 3em */
+	//font-weight:normal;
+    line-height: 2em; /* 1em */
+}
+
+/* .pixelbutton {
+	border:4px solid;
+	margin-bottom:2px;
+}
+
+.pixelbutton .button {
+	border-corner-shape: notch;
+	border-radius: 30px;
+	box-shadow: 
+		inset -2px -2px 0px 2px rgba(0,0,0,0.5),
+		inset 2px 2px 0px 2px rgba(255,255,255,0.5);
+} */
+
+@media (min-width: 550px) { 
+	#range {
+		box-shadow: 2px 0px 5px rgba(0,0,0,0.25);
+	}
+	
+	#range header {
+		position:absolute;
+		top:2.25em;
+	}
+	
+	#range #counter {
+		position:absolute;
+		top: -1em;
+		right: 1em;
+	}
+	
+}
+
+@media (max-width: 550px) {
+	#range header {
+		text-align: center;
+		position: absolute;
+		left: 0;
+		width: 100%;
+	}
+	
+	#range #counter {
+		width:100%;
+		position:absolute;
+		left:0;
+		top:2.5em;
+		text-align:center;
+		
+	}
+	
+	#range #counter h1 {
+		font-size:5em;
+	}
+	
+	#range #slider {
+		top:10em; /* 8.5em */
+		height:55%;
+	}
+	
+	#range #sliderButtons li a {
+		font-size: 1em;
+	}
+}
