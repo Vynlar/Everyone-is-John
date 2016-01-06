@@ -5,6 +5,10 @@ tmp = 10
 currentBid = -1
 bidButton = document.querySelector('#bidButton')
 
+window.setWillpower = (willpower) ->
+    @willpower = willpower
+    drawSlider()
+    
 drawSlider = ->
   slider = document.querySelector('#sliderButtons')
   console.log slider.offsetHeight
