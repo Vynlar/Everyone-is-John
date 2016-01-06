@@ -11,7 +11,6 @@ socket.on "connect", ->
   if !username?
     username = chance.name({middle: true, prefix: true})
     Cookies.set "username", username
-  document.getElementById("name").innerHTML = username
 
   socket.emit "join",
     roomId: window.roomId
@@ -21,19 +20,7 @@ socket.on "connect", ->
 
 socket.on "startBidding", (data) ->
   console.log "LOG: Start Bidding"
-  document.getElementById("bidding").style.display = "block"
-  document.getElementById("winner").innerHTML = ""
+  return
 
 socket.on "stopBidding", (data) ->
-  document.getElementById("winner").innerHTML = data.winner
-  document.getElementById("bidding").style.display = "none"
-
-###
-Click Events
-###
-document.getElementById("bid").addEventListener "click", (e) ->
-  bid = document.getElementById("bidField").value
-  document.getElementById("bidField").value = null
-  document.getElementById("bidding").style.display = "none"
-  socket.emit "bid",
-    bid: bid
+  return
