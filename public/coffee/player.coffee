@@ -11,6 +11,7 @@ socket.on "connect", ->
   if !username?
     username = chance.name({middle: true, prefix: true})
     Cookies.set "username", username
+  document.getElementById("name").innerHTML = username
 
   socket.emit "join",
     roomId: window.roomId
@@ -27,4 +28,4 @@ socket.on "stopBidding", (data) ->
 
 socket.on "willpower", (data) ->
   console.log "LOG: #{data.willpower}"
-  setWillpower data.willpower
+  document.getElementById("willpower").innerHTML = data.willpower

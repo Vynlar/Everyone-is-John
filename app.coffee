@@ -18,7 +18,6 @@ class Room
     @players.push player
   removeUser: (id) ->
     if @GM? && @GM.id == id
-      console.log "LOG: Found the GM to remove"
       @GM = null
       return
     index = -1
@@ -180,14 +179,6 @@ ROUTES
 
 routes = require './routes/index'
 app.use '/', routes
-
-###
-app.get "/:roomId", (req, res) ->
-  res.sendFile __dirname + "/views/player.html"
-
-app.get "/gm/:roomId", (req, res) ->
-  res.sendFile __dirname + "/views/gm.html"
-###
 
 ###
 START SERVER
