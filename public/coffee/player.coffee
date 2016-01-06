@@ -28,4 +28,4 @@ socket.on "stopBidding", (data) ->
 
 socket.on "willpower", (data) ->
   console.log "LOG: #{data.willpower}"
-  document.getElementById("willpower").innerHTML = data.willpower
+  setWillpower data.willpower

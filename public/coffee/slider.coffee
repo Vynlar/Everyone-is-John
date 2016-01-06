@@ -8,6 +8,7 @@ bidLockedIn = false
 
 window.setWillpower = (wp) ->
     willpower = wp
+    resetSlider()
     drawSlider()
     
 window.resetSlider = ->
@@ -50,7 +51,7 @@ drawSlider = ->
     button.addEventListener 'mouseenter', ->
       `var n`
       `var i`
-      if lock or @getAttribute('data-disabled') or @bidLockedIn == 'true'
+      if lock or @getAttribute('data-disabled') == "true" or @bidLockedIn
         return
       i = 0
       while i <= parseInt(@getAttribute('data-power'))
@@ -67,7 +68,7 @@ drawSlider = ->
     button.addEventListener 'mouseleave', ->
       `var n`
       `var i`
-      if lock or @getAttribute('data-disabled') or @bidLockedIn == 'true'
+      if lock or @getAttribute('data-disabled') == "true" or @bidLockedIn
         return
       i = 0
       while i <= willpower
@@ -84,15 +85,13 @@ drawSlider = ->
     button.addEventListener 'click', ->
       `var n`
       `var i`
-      if @getAttribute('data-disabled') or @bidLockedIn == 'true'
+      if @getAttribute('data-disabled') == "true" or @bidLockedIn
         return
       #Clear
       i = 0
       while i <= willpower
         n = willpower - i
         document.querySelector('[data-power="' + i + '"]').style.background = do ->
-          `var n`
-          `var i`
           hue = (n / willpower * 120).toString(10)
           [
             'hsl('
@@ -101,26 +100,15 @@ drawSlider = ->
           ].join ''
         i++
       #Color and lock
+      i = 0
       while i <= parseInt(@getAttribute('data-power'))
         n = willpower - i
         document.querySelector('[data-power="' + i + '"]').style.background = do ->
-          `var n`
-          `var i`
           hue = (n / willpower * 120).toString(10)
           [
             'hsl('
             hue
             ',75%,50%)'
-          ].join ''
-        i++
-      while i <= willpower
-        n = willpower - i
-        document.querySelector('[data-power="' + i + '"]').style.background = do ->
-          hue = (n / willpower * 120).toString(10)
-          [
-            'hsl('
-            hue
-            ',25%,50%)'
           ].join ''
         i++
       lock = true
@@ -133,7 +121,7 @@ drawSlider = ->
   return
 
 denyBid = (bid) ->
-    bid
+    console.log "Bid Deny"
   
 document.addEventListener 'DOMContentLoaded', ->
   drawSlider()
