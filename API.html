@@ -1,0 +1,58 @@
+<h1 id="socket-io-server-api">Socket.io Server API</h1>
+<h2 id="join">join</h2>
+<p>Must be called before anything else.</p>
+<p>Required Arguments:</p>
+<ul>
+<li>roomId<ul>
+<li>Located in the page URL</li>
+</ul>
+</li>
+<li>type<ul>
+<li>0 for GM</li>
+<li>1 for PLAYER</li>
+</ul>
+</li>
+<li>id<ul>
+<li>User&#39;s id (generate if necessary)</li>
+</ul>
+</li>
+<li>username<ul>
+<li>User&#39;s display name (Generate if necessary)</li>
+</ul>
+</li>
+</ul>
+<h2 id="bid">bid</h2>
+<p>Required Arguments:</p>
+<ul>
+<li>bid<ul>
+<li>Integer value of the bid</li>
+</ul>
+</li>
+</ul>
+<h2 id="startbidding">startBidding</h2>
+<p>Must be called by a GM socket. Will do nothing if called by a player.</p>
+<p>Required Arguments:</p>
+<ul>
+<li>None</li>
+</ul>
+<h2 id="changeusername">changeUsername</h2>
+<p>Can only be called by a player.</p>
+<p>Required Arguments:</p>
+<pre><code>* username
+</code></pre><hr>
+<h1 id="socket-io-server-responses">Socket.io Server Responses</h1>
+<h2 id="startbidding">startBidding</h2>
+<p>Sent when the client should display the bidding controls. Bidding has commenced.</p>
+<p>Data:</p>
+<ul>
+<li>None</li>
+</ul>
+<h2 id="stopbidding">stopBidding</h2>
+<p>Called when the bidding is over.</p>
+<p>Data:</p>
+<ul>
+<li>winner<ul>
+<li>the username of the winning bidder</li>
+</ul>
+</li>
+</ul>

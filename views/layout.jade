@@ -1,0 +1,16 @@
+doctype html
+html
+	head
+		title= title
+		meta(name="viewport", content="width=device-width, initial-scale=1")
+		link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=VT323')
+		link(rel='stylesheet', href='/stylesheets/main.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		
+		block extraheader
+	body
+		block content
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js')
+		script(src='/js/skel.min.js')
+		script(src='/js/main.js')
+		
