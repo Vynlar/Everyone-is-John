@@ -1,0 +1,22 @@
+extends layout
+
+block extraheader
+	link(rel='stylesheet', href='/stylesheets/game.css')
+
+block content
+	.row.uniform#mainContainer
+		div(class='3u 12u$(small)')#range
+			header
+				h2 Willpower
+			#counter
+				h1#willpowerAmt 10
+			
+			#slider
+				ul#sliderButtons.actions
+			
+			#bid
+				a(href="#").button.special.big#bidButton Bid
+		div(class='3u 12u$(small)')#section2
+			&nbsp;
+			
+	script(src="/js/slider.js")
