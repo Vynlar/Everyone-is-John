@@ -24,3 +24,7 @@ socket.on "startBidding", (data) ->
 
 socket.on "stopBidding", (data) ->
   return
+
+socket.on "willpower", (data) ->
+  console.log "LOG: #{data.willpower}"
+  document.getElementById("willpower").innerHTML = data.willpower

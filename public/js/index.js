@@ -10,16 +10,16 @@ var createNewGame = function() {
 		TweenMax.to(title.parentNode, 0.4, {ease: Sine.easeOut, height: title.parentNode.offsetHeight / 2});
 		newGame.innerText = "Create Game";
 		TweenMax.to(title, 0.4, {
-			ease: Sine.easeIn, 
-			y: -title.parentNode.offsetHeight, 
+			ease: Sine.easeIn,
+			y: -title.parentNode.offsetHeight,
 			onComplete: function() {
 				setTimeout(function() {
 					title.querySelector('h2').innerText = "Everyone is John";
 					TweenMax.to(title, 0.4, {ease: Sine.easeOut, y: 0});
-					
+
 					TweenMax.set(title.querySelector('h2'), { "padding-bottom": "0em" });
-					
-					
+
+
 					joinGameButton.setAttribute('data-action', '');
 					newGame.setAttribute('data-action', '');
 				}, 150);
@@ -27,7 +27,7 @@ var createNewGame = function() {
 		});
 		return;
 	}
-	
+
 	window.location = "game/create";
 };
 
@@ -36,10 +36,10 @@ var joinGame = function() {
 		if(gameId.value != "") window.location = "game/" + gameId.value;
 		return;
 	}
-	
+
 	TweenMax.to(title, 0.4, {
-		ease: Sine.easeIn, 
-		y: -title.parentNode.offsetHeight, 
+		ease: Sine.easeIn,
+		y: -title.parentNode.offsetHeight,
 		onComplete: function() {
 			setTimeout(function() {
 				title.querySelector('h2').innerText = "Enter Game ID";
@@ -53,7 +53,7 @@ var joinGame = function() {
 			}, 250);
 		}
 	});
-	
+
 
 };
 
@@ -61,3 +61,4 @@ document.addEventListener('DOMContentLoaded', function() { TweenMax.set(title.pa
 
 newGame.addEventListener('click', createNewGame);
 joinGameButton.addEventListener('click', joinGame);
+>>>>>>> 75e62e23045f3f7b687422ebdc167e259b6697be

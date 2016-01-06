@@ -30,9 +30,8 @@ class Room
   setGM: (id, socket) ->
     @GM = {id: id, socket: socket}
   startBidding: () ->
-    @resetPlayers()
-    @emitToPlayers "startBidding"
     @bidding = true
+    @emitToPlayers "startBidding"
   bid: (id, bid) ->
     if @bidding == false then return
     player = @findPlayer id
@@ -55,8 +54,10 @@ class Room
       ties.push highest
       i = Math.floor(Math.random() * ties.length)
       highest = ties[i]
+    highest.spend highest.bid
     @bidding = false
     @resetPlayers()
+    highest.socket.emit "willpower", {willpower: highest.willpower}
     @emitToAll "stopBidding", {winner: highest.username}
   emitToPlayers: (name, data) ->
     @eachPlayer (player) ->
@@ -97,13 +98,16 @@ PC = 1
 class Player
   constructor: (@socket, @id, @username) ->
     @bid = null
+    @willpower = 10
   makeBid: (bid) ->
     if !@bid?
       @bid = bid
+  spend: (value) ->
+    @willpower -= value
   setUsername: (username) ->
     @username = username
   reset: () ->
-    bid = null
+    @bid = null
 
 ###
 SOCKET CONNECTION
@@ -128,10 +132,14 @@ io.on "connection", (socket) ->
     if type == PC
       player = new Player socket, id, username
       room.addPlayer player
+      player.socket.emit "willpower",
+        willpower: player.willpower
     else
       room.setGM id, socket
     if type == GM then type = "GM" else type = "PLAYER"
     console.log "LOG: #{id} joined #{roomId} as #{type}"
+
+
 
   socket.on "bid", (data) ->
     bid = data.bid
@@ -146,7 +154,11 @@ io.on "connection", (socket) ->
   socket.on "changeUsername", (data) ->
     room = findRoom roomId
     player = room.findPlayer id
+    if !player? then return
     player.changeUsername data.username
+
+  socket.on "spend", (data) ->
+    value = data.amount
 
   socket.on "disconnect", () ->
     room = findRoom roomId

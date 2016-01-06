@@ -57,9 +57,8 @@
     };
 
     Room.prototype.startBidding = function() {
-      this.resetPlayers();
-      this.emitToPlayers("startBidding");
-      return this.bidding = true;
+      this.bidding = true;
+      return this.emitToPlayers("startBidding");
     };
 
     Room.prototype.bid = function(id, bid) {
@@ -106,8 +105,12 @@
         i = Math.floor(Math.random() * ties.length);
         highest = ties[i];
       }
+      highest.spend(highest.bid);
       this.bidding = false;
       this.resetPlayers();
+      highest.socket.emit("willpower", {
+        willpower: highest.willpower
+      });
       return this.emitToAll("stopBidding", {
         winner: highest.username
       });
@@ -194,6 +197,7 @@
       this.id = id1;
       this.username = username1;
       this.bid = null;
+      this.willpower = 10;
     }
 
     Player.prototype.makeBid = function(bid) {
@@ -202,13 +206,16 @@
       }
     };
 
+    Player.prototype.spend = function(value) {
+      return this.willpower -= value;
+    };
+
     Player.prototype.setUsername = function(username) {
       return this.username = username;
     };
 
     Player.prototype.reset = function() {
-      var bid;
-      return bid = null;
+      return this.bid = null;
     };
 
     return Player;
@@ -239,6 +246,9 @@
       if (type === PC) {
         player = new Player(socket, id, username);
         room.addPlayer(player);
+        player.socket.emit("willpower", {
+          willpower: player.willpower
+        });
       } else {
         room.setGM(id, socket);
       }
@@ -266,7 +276,14 @@
       var player, room;
       room = findRoom(roomId);
       player = room.findPlayer(id);
+      if (player == null) {
+        return;
+      }
       return player.changeUsername(data.username);
+    });
+    socket.on("spend", function(data) {
+      var value;
+      return value = data.amount;
     });
     return socket.on("disconnect", function() {
       var room;
