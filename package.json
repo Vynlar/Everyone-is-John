@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run coffee && node app.js",
-    "coffee": "coffee -c app.coffee && coffee -o public/js/ -c public/coffee/"
+    "coffee": "coffee -c app.coffee && coffee -o public/js/ -c public/coffee/ && coffee -c routes/index.coffee"
   },
   "author": "",
   "license": "ISC",
