@@ -34,5 +34,6 @@ Click Events
 document.getElementById("bid").addEventListener "click", (e) ->
   bid = document.getElementById("bidField").value
   document.getElementById("bidField").value = null
+  document.getElementById("bidding").style.display = "none"
   socket.emit "bid",
     bid: bid

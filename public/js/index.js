@@ -49,6 +49,7 @@
     var bid;
     bid = document.getElementById("bidField").value;
     document.getElementById("bidField").value = null;
+    document.getElementById("bidding").style.display = "none";
     return socket.emit("bid", {
       bid: bid
     });
