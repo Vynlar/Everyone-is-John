@@ -28,6 +28,10 @@ socket.on "stopBidding", (data) ->
   document.getElementById("winner").innerHTML = data.winner
   document.getElementById("bidding").style.display = "none"
 
+socket.on "willpower", (data) ->
+  console.log "LOG: #{data.willpower}"
+  document.getElementById("willpower").innerHTML = data.willpower
+
 ###
 Click Events
 ###

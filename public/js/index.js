@@ -40,6 +40,11 @@
     return document.getElementById("bidding").style.display = "none";
   });
 
+  socket.on("willpower", function(data) {
+    console.log("LOG: " + data.willpower);
+    return document.getElementById("willpower").innerHTML = data.willpower;
+  });
+
 
   /*
   Click Events
