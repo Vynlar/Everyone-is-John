@@ -1,0 +1,72 @@
+html, body {
+    margin:0;
+	overflow: hidden;
+}
+
+body {
+    background: #79c9f9;
+	background: url("/images/bg.jpg");
+	background-repeat: no-repeat;
+	font-family: "VT323";
+	font-weight:normal;
+}
+
+#banner {
+	padding: 1em 0 1.25em 0;
+	margin-top:10%;
+	box-shadow: 2px 2px 5px #888;
+	overflow:hidden;
+}
+
+#banner * h2 {
+	margin:0;
+	padding-bottom:1em;
+	font-weight: normal;
+}
+
+#banner * {
+	display:inline-block;
+}
+
+#gameId {
+	width:50%;
+	border: 0;
+    background: transparent;
+    border-bottom: 3px solid darkorange;
+    border-radius: 0;
+	text-align:center;
+}
+
+/* #banner h2 {
+	font-size: 8em;
+    line-height: 1em;
+    margin: 0;
+    padding: 0; 
+    font-weight: normal;
+} */
+
+#buttons div .button {
+	position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+	
+	background:#FFF;
+	color:#555 !important;
+	font-size: 2em;
+	line-height: 2.75em;
+	border-radius:0;
+	min-width:50%;
+	box-shadow: 2px 2px 3px #888;
+}
+
+#buttons div .button:hover {
+	margin-top:-2px;
+	margin-left:-2px;
+	box-shadow: 2px 2px 2px #555;
+}
+
+@media (max-width: 550px) {
+	#buttons div:nth-child(3) .button {
+		margin-top:1em !important;
+	}
+}
