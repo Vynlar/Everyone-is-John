@@ -1,5 +1,5 @@
-socket = io()
-roomId = ""
+window.socket = io()
+window.roomId = ""
 
 GM = 0
 PC = 1
