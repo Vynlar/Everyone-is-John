@@ -5,8 +5,8 @@ tmp = 10
 currentBid = -1
 bidButton = document.querySelector('#bidButton')
 
-window.setWillpower = (willpower) ->
-    @willpower = willpower
+window.setWillpower = (wp) ->
+    willpower = wp
     drawSlider()
     
 drawSlider = ->
