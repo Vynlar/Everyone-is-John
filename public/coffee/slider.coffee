@@ -4,14 +4,22 @@ ln = -1
 tmp = 10
 currentBid = -1
 bidButton = document.querySelector('#bidButton')
+bidLockedIn = false
 
 window.setWillpower = (wp) ->
     willpower = wp
     drawSlider()
     
+window.resetSlider = ->
+    lock = false
+    ln = -1
+    drawSlider()
+    bidButton.className = bidButton.className.replace /(?:^|\s)disabled(?!\S)/g, ''
+    bidButton.innerText = "Bid"
+    bidLockedIn = false
+    
 drawSlider = ->
   slider = document.querySelector('#sliderButtons')
-  console.log slider.offsetHeight
   numButtons = if willpower > 10 then willpower else 10
   height = slider.offsetHeight / (numButtons + 1)
   slider.innerHTML = ''
@@ -42,7 +50,7 @@ drawSlider = ->
     button.addEventListener 'mouseenter', ->
       `var n`
       `var i`
-      if lock or @getAttribute('data-disabled') == 'true'
+      if lock or @getAttribute('data-disabled') or @bidLockedIn == 'true'
         return
       i = 0
       while i <= parseInt(@getAttribute('data-power'))
@@ -59,7 +67,7 @@ drawSlider = ->
     button.addEventListener 'mouseleave', ->
       `var n`
       `var i`
-      if lock or @getAttribute('data-disabled') == 'true'
+      if lock or @getAttribute('data-disabled') or @bidLockedIn == 'true'
         return
       i = 0
       while i <= willpower
@@ -76,7 +84,7 @@ drawSlider = ->
     button.addEventListener 'click', ->
       `var n`
       `var i`
-      if @getAttribute('data-disabled') == 'true'
+      if @getAttribute('data-disabled') or @bidLockedIn == 'true'
         return
       #Clear
       i = 0
@@ -129,8 +137,13 @@ denyBid = (bid) ->
   
 document.addEventListener 'DOMContentLoaded', ->
   drawSlider()
+  socket.on "willpower", (data) ->
+    setWillpower data.willpower
   bidButton.addEventListener 'click', ->
     if currentBid < 0 or currentBid > willpower then denyBid currentBid
     socket.emit "bid",
         bid: currentBid
+    bidButton.className += " disabled"
+    bidButton.innerText = "Bid Locked In!"
+    bidLockedIn = true
   return
