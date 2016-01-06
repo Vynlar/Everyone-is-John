@@ -1,37 +1,29 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'c:\\Program Files (x86)\\nodejs\\node.exe',
-1 verbose cli   'c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
-1 verbose cli   'start' ]
-2 info using npm@2.7.4
-3 info using node@v0.12.2
-4 verbose run-script [ 'prestart', 'start', 'poststart' ]
-5 info prestart j@1.0.0
-6 info start j@1.0.0
+1 verbose cli [ 'q:\\NodeJS\\node.exe',
+1 verbose cli   'q:\\NodeJS\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'coffee' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 verbose run-script [ 'precoffee', 'coffee', 'postcoffee' ]
+5 info precoffee j@1.0.0
+6 info coffee j@1.0.0
 7 verbose unsafe-perm in lifecycle true
-8 info j@1.0.0 Failed to exec start script
-9 verbose stack Error: j@1.0.0 start: `node app.js`
-9 verbose stack Exit status 1
-9 verbose stack     at EventEmitter.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\lib\utils\lifecycle.js:213:16)
-9 verbose stack     at EventEmitter.emit (events.js:110:17)
-9 verbose stack     at ChildProcess.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\lib\utils\spawn.js:14:12)
-9 verbose stack     at ChildProcess.emit (events.js:110:17)
-9 verbose stack     at maybeClose (child_process.js:1015:16)
-9 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
-10 verbose pkgid j@1.0.0
-11 verbose cwd c:\Users\Adrian\programming\node\john
-12 error Windows_NT 6.3.9600
-13 error argv "c:\\Program Files (x86)\\nodejs\\node.exe" "c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "start"
-14 error node v0.12.2
-15 error npm  v2.7.4
+8 info j@1.0.0 Failed to exec coffee script
+9 error j@1.0.0 coffee: `coffee -o app.js -c app.coffee && coffee -o public/js/ -c public/coffee/`
+9 error Exit status 1
+10 error Failed at the j@1.0.0 coffee script.
+10 error This is most likely a problem with the j package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     coffee -o app.js -c app.coffee && coffee -o public/js/ -c public/coffee/
+10 error You can get their info via:
+10 error     npm owner ls j
+10 error There is likely additional logging output above.
+11 error System Windows_NT 6.1.7601
+12 error command "q:\\NodeJS\\node.exe" "q:\\NodeJS\\node_modules\\npm\\bin\\npm-cli.js" "run" "coffee"
+13 error cwd q:\dev\node\john
+14 error node -v v0.10.32
+15 error npm -v 1.4.28
 16 error code ELIFECYCLE
-17 error j@1.0.0 start: `node app.js`
-17 error Exit status 1
-18 error Failed at the j@1.0.0 start script 'node app.js'.
-18 error This is most likely a problem with the j package,
-18 error not with npm itself.
-18 error Tell the author that this fails on your system:
-18 error     node app.js
-18 error You can get their info via:
-18 error     npm owner ls j
-18 error There is likely additional logging output above.
-19 verbose exit [ 1, true ]
+17 verbose exit [ 1, true ]

@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "compile-coffee": "coffee -o app.js -c app.coffee && coffee -o public/js -c public/coffee"
+    "start": "npm run coffee && node app.js",
+    "coffee": "coffee -c app.coffee && coffee -o public/js/ -c public/coffee/"
   },
   "author": "",
   "license": "ISC",
