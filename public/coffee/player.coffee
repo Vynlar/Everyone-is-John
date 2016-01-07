@@ -4,6 +4,11 @@ window.roomId = ""
 GM = 0
 PC = 1
 
+window.setUsername = (username) ->
+  if username?
+    Cookies.set "username", username
+    socket.emit 'changeUsername', { username: username }
+    
 socket.on "connect", ->
   console.log "LOG: connected to socket"
 

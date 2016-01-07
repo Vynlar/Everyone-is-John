@@ -155,7 +155,8 @@ io.on "connection", (socket) ->
     room = findRoom roomId
     player = room.findPlayer id
     if !player? then return
-    player.changeUsername data.username
+    player.setUsername data.username
+    console.log "LOG: #{id} changed their username to #{data.username}"
 
   socket.on "spend", (data) ->
     value = data.amount
