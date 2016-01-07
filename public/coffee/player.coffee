@@ -11,7 +11,8 @@ socket.on "connect", ->
   if !username?
     username = chance.name({middle: true, prefix: true})
     Cookies.set "username", username
-  document.getElementById("name").innerHTML = username
+  #document.getElementById("name").innerHTML = username
+  document.getElementById("name").value = username
 
   socket.emit "join",
     roomId: window.roomId

@@ -5,11 +5,17 @@ tmp = 10
 currentBid = -1
 bidButton = document.querySelector('#bidButton')
 bidLockedIn = false
+range = null
 
 window.setWillpower = (wp) ->
     willpower = wp
     resetSlider()
     drawSlider()
+    
+window.slideWillpower = (out) ->
+    TweenMax.to range, 0.8,
+          ease: if !!out then Sine.easeIn else Sine.easeOut
+          x: if !!out then -range.offsetHeight else 0
     
 window.resetSlider = ->
     lock = false
@@ -124,6 +130,7 @@ denyBid = (bid) ->
     console.log "Bid Deny"
   
 document.addEventListener 'DOMContentLoaded', ->
+  range = document.querySelector '#range'
   drawSlider()
   socket.on "willpower", (data) ->
     setWillpower data.willpower

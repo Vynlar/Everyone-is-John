@@ -4,7 +4,20 @@ block extraheader
     link(rel='stylesheet', href='/stylesheets/game.css')
 
 block content
-    .row.uniform#mainContainer
+    section#banner.gameStart
+        #title
+            h2 Welcome
+        br
+        input(type='text')#name
+        
+    #main.container
+      .row#buttons
+        div(class="4u 1u$(small)") &nbsp;
+        div(class="4u 10u$(small)")
+          a(href="#").button.special.big#userStart Start
+        div(class="4u 1u$(small)") &nbsp;
+
+    .row.uniform#rangeContainer
         div(class='3u 12u$(small)')#range
             header
                 h2 Willpower
@@ -16,9 +29,9 @@ block content
                 a(href="#").button.special.big#bidButton Bid
             div(class='3u 12u$(small)')#section2
                 &nbsp;
-                
+    .row.uniform#mainContainer 
+        div(class='3u 0u$(small)')#blank &nbsp;
         div(class='3u 12u$(small)')#content
-          h1#name
                 
             
 
@@ -27,4 +40,5 @@ block content
     script(src="/lib/chance.js")
     script(src="/js/common.js")
     script(src="/js/player.js")
+    script(src="/js/game.js")
     script(src="/js/slider.js")
