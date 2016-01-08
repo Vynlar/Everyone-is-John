@@ -12,6 +12,9 @@ router.get '/game/create', (req, res) ->
 router.get '/game/:id', (req, res) ->
   res.render 'game', title: 'Everyone Is John'
 
+router.get '/gm/:id', (req, res) ->
+  res.render "gm"
+
 router.get '/game', (req, res) ->
   res.redirect 301, '/'
 

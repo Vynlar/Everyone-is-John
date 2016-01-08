@@ -25,7 +25,13 @@ class Room
       if player.id == id
         index = i
     if index != -1
-      @players.splice index, 1
+      player.left = true
+      players = @players
+      setTimeout (->
+        if player.left == true
+          players.splice index, 1
+          console.log "LOG: Removed #{player.username} from #{@id}"
+      ),1000*5
   setGM: (id, socket) ->
     @GM = {id: id, socket: socket}
   startBidding: () ->
@@ -35,15 +41,14 @@ class Room
     if @bidding == false then return
     player = @findPlayer id
     player.makeBid bid
-    @checkBids()
-  checkBids: () ->
-    console.log "checking bids"
-    for player in @players
-      if player.bid == null then return
     @processBids()
   processBids: () ->
-    console.log "processing bids"
-    highest = {bid: 0}
+    #check to see if all the bids are in yet
+    for player in @players
+      if player.bid == null then return
+
+    # HACK: MESSY CODE, PLEASE FIX ME!
+    highest = @players[0]
     ties = []
     for player in @players
       if player.bid > highest.bid
@@ -55,11 +60,16 @@ class Room
       ties.push highest
       i = Math.floor(Math.random() * ties.length)
       highest = ties[i]
+
+    console.log "#{highest}"
+
     highest.spend highest.bid
     @bidding = false
     @resetPlayers()
     highest.socket.emit "willpower", {willpower: highest.willpower}
+    @emitToGM "willpower", {willpower: highest.willpower, userId: highest.id}
     @emitToAll "stopBidding", {winner: highest.username}
+
   emitToPlayers: (name, data) ->
     @eachPlayer (player) ->
       player.socket.emit name, data
@@ -100,6 +110,7 @@ class Player
   constructor: (@socket, @id, @username) ->
     @bid = null
     @willpower = 10
+    @left = false
   makeBid: (bid) ->
     if !@bid?
       @bid = bid
@@ -115,59 +126,77 @@ class Player
 SOCKET CONNECTION
 ###
 io.on "connection", (socket) ->
-  roomId = ""
-  id = ""
+  room = null
+  userId = null
+  player = null
 
   socket.on "join", (data) ->
-    roomId = data.roomId
+    {roomId, type, username} = data
+    userId = data.userId
     room = findRoom roomId
-    type = data.type
-    id = data.userId
-    username = data.username
-
-    socket.join roomId
 
     if !room?
       room = Room.create roomId
       rooms.push room
 
+    console.log room.players
+
+    socket.join roomId
+
+    typeName = "PC"
     if type == PC
-      player = new Player socket, id, username
-      room.addPlayer player
+      console.log "LOG: Tried to join as a PC"
+      player = room.findPlayer userId
+      if !player?
+        console.log "LOG: Did not find existing player"
+        player = new Player socket, userId, username
+        room.addPlayer player
+      else
+        #update the player's socket
+        player.socket = socket
+        player.left = false
       player.socket.emit "willpower",
         willpower: player.willpower
+      if room.bidding == true
+        player.socket.emit "startBidding"
+    else if type == GM
+      room.setGM userId, socket
+      typeName = "GM"
+
+    if player?
+      console.log "#{player.username}(#{userId}) joined #{room.id}"
     else
-      room.setGM id, socket
-    if type == GM then type = "GM" else type = "PLAYER"
-    console.log "LOG: #{id} joined #{roomId} as #{type}"
-
-
+      console.log "GM(#{userId}) joined #{room.id}"
 
   socket.on "bid", (data) ->
-    console.log "bidded #{data.bid}"
+    if !player? then return
     bid = data.bid
-    room = findRoom roomId
-    room.bid id, bid
+    room.bid userId, bid
+    console.log "#{player.username} bid #{data.bid}"
 
   socket.on "startBidding", (data) ->
-    room = findRoom roomId
-    if room.GM.socket == socket
-      room.startBidding()
+    if player? then return
+    room.startBidding()
 
   socket.on "changeUsername", (data) ->
-    room = findRoom roomId
-    player = room.findPlayer id
     if !player? then return
+    data.username.replace(/[^a-zA-Z0-9\s[.]/g, "")
     player.changeUsername data.username
+    console.log "#{player.username} changed their name to '#{data.username}'"
 
   socket.on "spend", (data) ->
-    value = data.amount
+    if !player? then return
+    player.spend data.amount
+    console.log "#{player.username} spent #{data.amount}"
 
   socket.on "disconnect", () ->
-    room = findRoom roomId
     if !room? then return
-    room.removeUser id
-    console.log "LOG: #{id} left #{roomId}"
+    room.removeUser userId
+
+    if player?
+      console.log "#{player.username}(#{userId}) left #{room.id}"
+    else
+      console.log "GM(#{userId}) left #{room.id}"
 
 ###
 MIDDLEWARE

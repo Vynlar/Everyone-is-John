@@ -24,17 +24,20 @@ socket.on "connect", ->
     userId: Cookies.get "userId"
     username: Cookies.get "username"
 
+  console.log "LOG: emitted the join request"
+
 socket.on "startBidding", (data) ->
   console.log "LOG: Start Bidding"
-  window.slideWillpower(true)
+  window.slideWillpower(false)
   return
 
 socket.on "stopBidding", (data) ->
   # TODO: USE THE WINNER
-  console.log "LOG: Start Bidding"
-  window.slideWillpower()
+  window.slideWillpower(true)
+  if data.willpower?
+    console.log "LOG: Stop Bidding: #{data.winner}"
   return
 
 socket.on "willpower", (data) ->
-  console.log "LOG: #{data.willpower}"
+  console.log "LOG: #{data.willpower} willpower"
   setWillpower data.willpower
