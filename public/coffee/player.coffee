@@ -28,7 +28,10 @@ socket.on "connect", ->
 
 socket.on "startBidding", (data) ->
   console.log "LOG: Start Bidding"
-  window.slideWillpower(false)
+  if window.started != true
+    window.bidding = true
+  else
+    window.slideWillpower(false)
   return
 
 socket.on "stopBidding", (data) ->
