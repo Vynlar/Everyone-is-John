@@ -1,7 +1,8 @@
 url = window.location.href
 url = url.split "/"
-
-window.roomId = url[url.length - 1]
+url = url[url.length - 1]
+url = url.split("#")[0]
+window.roomId = url
 
 guid = () ->
   s4 = () ->

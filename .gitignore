@@ -3,3 +3,4 @@ public/js
 routes/index.js
 app.js
 prepros.cfg
+npm-debug.log

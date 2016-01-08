@@ -1,5 +1,4 @@
 window.socket = io()
-window.roomId = ""
 
 GM = 0
 PC = 1
@@ -8,7 +7,7 @@ window.setUsername = (username) ->
   if username?
     Cookies.set "username", username
     socket.emit 'changeUsername', { username: username }
-    
+
 socket.on "connect", ->
   console.log "LOG: connected to socket"
 
@@ -27,9 +26,13 @@ socket.on "connect", ->
 
 socket.on "startBidding", (data) ->
   console.log "LOG: Start Bidding"
+  window.slideWillpower(true)
   return
 
 socket.on "stopBidding", (data) ->
+  # TODO: USE THE WINNER
+  console.log "LOG: Start Bidding"
+  window.slideWillpower()
   return
 
 socket.on "willpower", (data) ->

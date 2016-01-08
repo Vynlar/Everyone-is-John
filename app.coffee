@@ -37,10 +37,12 @@ class Room
     player.makeBid bid
     @checkBids()
   checkBids: () ->
+    console.log "checking bids"
     for player in @players
       if player.bid == null then return
     @processBids()
   processBids: () ->
+    console.log "processing bids"
     highest = {bid: 0}
     ties = []
     for player in @players
@@ -104,7 +106,7 @@ class Player
   spend: (value) ->
     if value > @willpower then return
     @willpower -= value
-  setUsername: (username) ->
+  changeUsername: (username) ->
     @username = username
   reset: () ->
     @bid = null
@@ -142,6 +144,7 @@ io.on "connection", (socket) ->
 
 
   socket.on "bid", (data) ->
+    console.log "bidded #{data.bid}"
     bid = data.bid
     room = findRoom roomId
     room.bid id, bid
@@ -155,8 +158,7 @@ io.on "connection", (socket) ->
     room = findRoom roomId
     player = room.findPlayer id
     if !player? then return
-    player.setUsername data.username
-    console.log "LOG: #{id} changed their username to #{data.username}"
+    player.changeUsername data.username
 
   socket.on "spend", (data) ->
     value = data.amount
