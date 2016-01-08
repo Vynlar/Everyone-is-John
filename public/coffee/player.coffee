@@ -28,6 +28,7 @@ socket.on "connect", ->
 
 socket.on "startBidding", (data) ->
   console.log "LOG: Start Bidding"
+  window.resetSlider()
   if window.started != true
     window.bidding = true
   else

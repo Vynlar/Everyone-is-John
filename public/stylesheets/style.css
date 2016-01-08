@@ -5,8 +5,18 @@ html, body {
 
 body {
     background: #79c9f9;
-	background: url("/images/bg.jpg");
+	background: url("/images/newbg2.png");
 	background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  image-rendering: optimizeSpeed;             /* Legal fallback */
+  image-rendering:-moz-crisp-edges;          /* Firefox        */
+  image-rendering:-o-crisp-edges;            /* Opera          */
+  image-rendering:-webkit-optimize-contrast; /* Safari         */
+  image-rendering:optimize-contrast;         /* CSS3 Proposed  */
+  image-rendering:crisp-edges;               /* CSS4 Proposed  */
+  image-rendering:pixelated;                 /* CSS4 Proposed  */
+  -ms-interpolation-mode:nearest-neighbor;   /* IE8+           */
 	font-family: "VT323";
 	font-weight:normal;
 }
@@ -44,7 +54,7 @@ body {
 	font-size: 8em;
     line-height: 1em;
     margin: 0;
-    padding: 0; 
+    padding: 0;
     font-weight: normal;
 } */
 
@@ -52,7 +62,7 @@ body {
 	position: relative;
     left: 50%;
     transform: translateX(-50%);
-	
+
 	background:#FFF;
 	color:#555 !important;
 	font-size: 2em;
