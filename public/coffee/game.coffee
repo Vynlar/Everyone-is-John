@@ -17,7 +17,7 @@ document.addEventListener 'DOMContentLoaded', ->
             if window.bidding == true
               window.slideWillpower(false)
 
-  window.toast = ({title, body}) ->
+  window.toast = ({title="", body=""}) ->
     toast = document.getElementById("toast")
     toast.getElementsByTagName("h1")[0].innerHTML = title
     toast.getElementsByTagName("p")[0].innerHTML = body
