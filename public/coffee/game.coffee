@@ -16,3 +16,14 @@ document.addEventListener 'DOMContentLoaded', ->
           onComplete: ->
             if window.bidding == true
               window.slideWillpower(false)
+
+  window.toast = ({title, body}) ->
+    toast = document.getElementById("toast")
+    toast.getElementsByTagName("h1")[0].innerHTML = title
+    toast.getElementsByTagName("p")[0].innerHTML = body
+    toast.style.display = "block"
+    setTimeout (->
+      toast.style.display = "none"
+    ), 5000
+    toast.getElementsByTagName("a")[0].addEventListener "click", (e) ->
+      toast.style.display = "none"

@@ -38,8 +38,9 @@ socket.on "startBidding", (data) ->
 socket.on "stopBidding", (data) ->
   # TODO: USE THE WINNER
   window.slideWillpower(true)
-  if data.willpower?
+  if data.winner?
     console.log "LOG: Stop Bidding: #{data.winner}"
+    window.toast({title: "#{data.winner} won!"})
   return
 
 socket.on "willpower", (data) ->
