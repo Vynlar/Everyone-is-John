@@ -3,6 +3,7 @@ app = express()
 http = require("http").Server app
 io = require("socket.io")(http)
 _ = require "underscore"
+args = require("yargs").argv
 
 ###
 ROOMS
@@ -207,6 +208,8 @@ io.on "connection", (socket) ->
     if !room? then return
     room.removeUser userId
 
+    room.updateGM()
+
     if player?
       console.log "#{player.username}(#{userId}) left #{room.id}"
     else
@@ -229,6 +232,6 @@ app.use '/', routes
 ###
 START SERVER
 ###
-port = 3002
+if args.port then port = args.port else port = 3000
 http.listen port, () ->
   console.log "Server started on " + port
