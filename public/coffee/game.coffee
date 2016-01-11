@@ -27,3 +27,6 @@ document.addEventListener 'DOMContentLoaded', ->
     ), 5000
     toast.getElementsByTagName("a")[0].addEventListener "click", (e) ->
       toast.style.display = "none"
+
+  #generate QR code
+  new QRCode(document.getElementById("playerQRCode"), "http://" + window.location.host + "/game/" + window.roomId);
