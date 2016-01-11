@@ -40,7 +40,7 @@ socket.on "stopBidding", (data) ->
   window.slideWillpower(true)
   if data.winner?
     console.log "LOG: Stop Bidding: #{data.winner}"
-    window.toast({title: "#{data.winner} won!"})
+    window.toast({title: "#{data.winner} is in control!"})
   return
 
 socket.on "willpower", (data) ->
