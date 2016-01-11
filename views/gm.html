@@ -3,14 +3,74 @@
   <head>
     <meta charset="utf-8">
     <title>GM</title>
+    <script src="https://fb.me/react-0.14.6.js"></script>
+    <script src="https://fb.me/react-dom-0.14.6.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
   </head>
   <body>
     <h1>JOHN</h1>
 
+    <script type="text/babel">
+      window.players = [
+        {
+          id: 0,
+          username: "Adrian",
+          willpower: 9
+        },
+        {
+          id: 1,
+          username: "Nick",
+          willpower: 8
+        }
+      ];
+
+      var Player = React.createClass({
+        render: function() {
+          return (
+            <ul>
+              <label>{this.props.player.username}</label>
+              <li>Willpower: {this.props.player.willpower}</li>
+            </ul>
+          );
+        }
+      });
+
+      var PlayerList = React.createClass({
+        getInitialState: function() {
+          return {
+            players: []
+          }
+        },
+        componentDidMount: function() {
+          var parent = this;
+          socket.on("players.update", function(data) {
+            console.log(data);
+            parent.setState({players: data});
+          });
+        },
+        render: function() {
+          return (
+            <ul>
+              {
+                this.state.players.map(function(player) {
+                  return (
+                    <li key={player.id}><Player player={player} /></li>
+                  );
+                })
+              }
+            </ul>
+          );
+        }
+      });
+
+      ReactDOM.render(<PlayerList />, document.getElementById("playerList"));
+    </script>
+
+    <div id="playerList"></div>
     <a id="beginTest" href="javascript:{}">TEST FOR CONTROL!</a>
 
     <script src="/socket.io/socket.io.js" charset="utf-8"></script>
-    <script src="/js/cookies.js" charset="utf-8"></script>
+    <script src="/lib/cookies.js" charset="utf-8"></script>
     <script src="/js/common.js" charset="utf-8"></script>
     <script src="/js/gm.js" charset="utf-8"></script>
   </body>

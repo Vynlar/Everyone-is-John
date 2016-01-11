@@ -2,6 +2,7 @@ express = require "express"
 app = express()
 http = require("http").Server app
 io = require("socket.io")(http)
+_ = require "underscore"
 
 ###
 ROOMS
@@ -61,24 +62,33 @@ class Room
       i = Math.floor(Math.random() * ties.length)
       highest = ties[i]
 
-    console.log "#{highest}"
-
     highest.spend highest.bid
     @bidding = false
     @resetPlayers()
+    console.log highest
     highest.socket.emit "willpower", {willpower: highest.willpower}
-    @emitToGM "willpower", {willpower: highest.willpower, userId: highest.id}
+    @updateGM()
     @emitToAll "stopBidding", {winner: highest.username}
 
   emitToPlayers: (name, data) ->
     @eachPlayer (player) ->
       player.socket.emit name, data
   emitToGM: (name, data) ->
-    if !@GM? then return
-    @GM.socket.emit name, data
+    console.log "LOG: #{name} | #{data.length}"
+    if @GM? then @GM.socket.emit name, data
   emitToAll: (name, data) ->
     @emitToPlayers name, data
     @emitToGM name, data
+  updateGM: () ->
+    players = []
+    for player in @players
+      {username, willpower, id} = player
+      players.push {
+        id
+        username
+        willpower
+      }
+    @emitToGM "players.update", players
   resetPlayers: () ->
     @eachPlayer (player) -> player.reset()
   findPlayer: (id) ->
@@ -107,7 +117,7 @@ GM = 0
 PC = 1
 
 class Player
-  constructor: (@socket, @id, @username) ->
+  constructor: (@socket, @id, @username, @room) ->
     @bid = null
     @willpower = 10
     @left = false
@@ -117,6 +127,7 @@ class Player
   spend: (value) ->
     if value > @willpower then return
     @willpower -= value
+    @room.updateGM()
   changeUsername: (username) ->
     @username = username
   reset: () ->
@@ -139,8 +150,6 @@ io.on "connection", (socket) ->
       room = Room.create roomId
       rooms.push room
 
-    console.log room.players
-
     socket.join roomId
 
     typeName = "PC"
@@ -149,7 +158,7 @@ io.on "connection", (socket) ->
       player = room.findPlayer userId
       if !player?
         console.log "LOG: Did not find existing player"
-        player = new Player socket, userId, username
+        player = new Player socket, userId, username, room
         room.addPlayer player
       else
         #update the player's socket
@@ -162,6 +171,11 @@ io.on "connection", (socket) ->
     else if type == GM
       room.setGM userId, socket
       typeName = "GM"
+
+    #update GM on recent player changes
+    room.updateGM()
+
+
 
     if player?
       console.log "#{player.username}(#{userId}) joined #{room.id}"

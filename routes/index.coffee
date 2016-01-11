@@ -1,5 +1,6 @@
 express = require('express')
 router = express.Router()
+path = require "path"
 
 ### GET home page. ###
 
@@ -13,7 +14,7 @@ router.get '/game/:id', (req, res) ->
   res.render 'game', title: 'Everyone Is John'
 
 router.get '/gm/:id', (req, res) ->
-  res.render "gm"
+  res.sendFile path.join __dirname, "../views/gm.html"
 
 router.get '/game', (req, res) ->
   res.redirect 301, '/'

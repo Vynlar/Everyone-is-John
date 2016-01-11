@@ -1,4 +1,4 @@
-socket = io()
+window.socket = io()
 
 GM = 0
 PC = 1
