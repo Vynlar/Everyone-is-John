@@ -229,6 +229,6 @@ app.use '/', routes
 ###
 START SERVER
 ###
-port = 3000
+port = 3002
 http.listen port, () ->
   console.log "Server started on " + port
