@@ -74,7 +74,7 @@
     <div id="playerLink"></div>
 
     <script type="text/babel">
-      var LinkWrapper = React.createClass({
+      var PlayerLink = React.createClass({
         getInitialState: function() {
           return({
             link: "http://" + window.location.host + "/game/" + window.roomId
@@ -87,16 +87,12 @@
           return (
             <div>
               <a href={this.state.link}>{this.state.link}</a>
-              <div id="playerQRCode"></div>
+              <div style={{padding: "1em"}} id="playerQRCode"></div>
             </div>
           );
         }
       });
-      ReactDOM.render(<LinkWrapper />, document.getElementById("playerLink"));
-    </script>
-
-    <script type="text/javascript">
-
+      ReactDOM.render(<PlayerLink />, document.getElementById("playerLink"));
     </script>
 
     <script src="/socket.io/socket.io.js" charset="utf-8"></script>
