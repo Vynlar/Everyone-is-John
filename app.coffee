@@ -27,13 +27,14 @@ class Room
       if player.id == id
         index = i
     if index != -1
-      player.left = true
+      @players[index].left = true
       players = @players
+      roomId = @id
       setTimeout (->
         if player.left == true
           players.splice index, 1
-          console.log "LOG: Removed #{player.username} from #{@id}"
-      ),1000*5
+          console.log "LOG: #{player.username} is inactive. Removed them from #{roomId}"
+      ),1000*10
   setGM: (id, socket) ->
     @GM = {id: id, socket: socket}
   startBidding: () ->
@@ -66,16 +67,15 @@ class Room
     highest.spend highest.bid
     @bidding = false
     @resetPlayers()
-    console.log highest
     highest.socket.emit "willpower", {willpower: highest.willpower}
     @updateGM()
     @emitToAll "stopBidding", {winner: highest.username}
+    console.log "LOG: #{highest.username} has won control of #{@id}!"
 
   emitToPlayers: (name, data) ->
     @eachPlayer (player) ->
       player.socket.emit name, data
   emitToGM: (name, data) ->
-    console.log "LOG: #{name} | #{data.length}"
     if @GM? then @GM.socket.emit name, data
   emitToAll: (name, data) ->
     @emitToPlayers name, data
@@ -90,6 +90,7 @@ class Room
         willpower
       }
     @emitToGM "players.update", players
+    console.log "LOG: Updated GM with #{players.length} players."
   resetPlayers: () ->
     @eachPlayer (player) -> player.reset()
   findPlayer: (id) ->
@@ -130,6 +131,7 @@ class Player
     @willpower -= value
     @room.updateGM()
   changeUsername: (username) ->
+    if username == @username then return false
     @username = username
   reset: () ->
     @bid = null
@@ -155,13 +157,16 @@ io.on "connection", (socket) ->
 
     typeName = "PC"
     if type == PC
-      console.log "LOG: Tried to join as a PC"
       player = room.findPlayer userId
       if !player?
         console.log "LOG: Did not find existing player"
+        if !userId? || !username?
+          console.log "LOG: userId or username is undefined"
+          return
         player = new Player socket, userId, username, room
         room.addPlayer player
       else
+        console.log "LOG: Found existing player: #{player.username}"
         #update the player's socket
         player.socket = socket
         player.left = false
@@ -179,15 +184,15 @@ io.on "connection", (socket) ->
 
 
     if player?
-      console.log "#{player.username}(#{userId}) joined #{room.id}"
+      console.log "LOG: #{player.username}(#{userId}) joined #{room.id}"
     else
-      console.log "GM(#{userId}) joined #{room.id}"
+      console.log "LOG: GM(#{userId}) joined #{room.id}"
 
   socket.on "bid", (data) ->
     if !player? then return
     bid = data.bid
     room.bid userId, bid
-    console.log "#{player.username} bid #{data.bid}"
+    console.log "LOG: #{player.username} bid #{data.bid} in #{room.id}"
 
   socket.on "startBidding", (data) ->
     if player? then return
@@ -196,13 +201,15 @@ io.on "connection", (socket) ->
   socket.on "changeUsername", (data) ->
     if !player? then return
     data.username.replace(/[^a-zA-Z0-9\s[.]/g, "")
-    player.changeUsername data.username
-    console.log "#{player.username} changed their name to '#{data.username}'"
+    if player.changeUsername data.username
+      console.log "LOG: #{player.username} changed their name to '#{data.username}'"
+    else
+      console.log "ERROR: #{player.username} was already named that!"
 
   socket.on "spend", (data) ->
     if !player? then return
     player.spend data.amount
-    console.log "#{player.username} spent #{data.amount}"
+    console.log "LOG: #{player.username} spent #{data.amount} willpower"
 
   socket.on "disconnect", () ->
     if !room? then return
@@ -211,9 +218,9 @@ io.on "connection", (socket) ->
     room.updateGM()
 
     if player?
-      console.log "#{player.username}(#{userId}) left #{room.id}"
+      console.log "LOG: #{player.username}(#{userId}) disconnected from #{room.id}"
     else
-      console.log "GM(#{userId}) left #{room.id}"
+      console.log "LOG: GM(#{userId}) disconnected from #{room.id}"
 
 ###
 MIDDLEWARE

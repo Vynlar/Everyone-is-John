@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=VT323">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/game.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  </head>
+
+  <body>
+    <section id="banner" class="gameStart">
+      <div id="title">
+        <h2>Everyone is John</h2>
+      </div>
+      <br>
+      <input type="text" id="name">
+    </section>
+    <div id="main" class="container">
+      <div id="buttons" class="row">
+        <div class="4u 0u$(small)">&nbsp;</div>
+        <div class="4u 12u$(small)"><a href="#" id="userStart" class="button special big">Start</a>
+        </div>
+        <div class="4u 0u$(small)">&nbsp;</div>
+
+        <div class="3u 12u$(small)">
+          <div id="spendPanel"></div>
+
+          <script type="text/babel">
+            var SpendPanel = React.createClass({
+              spend: function() {
+                var amount = this.refs.selector.value;
+                amount = parseInt(amount);
+                socket.emit("spend", {amount});
+                this.refs.selector.selectedIndex = 0;
+              },
+              render: function() {
+                return (
+                  <div>
+                    <select ref="selector">
+                      <option>0</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>6</option>
+                      <option>7</option>
+                      <option>8</option>
+                      <option>9</option>
+                      <option>10</option>
+                    </select>
+                    <a href="javascript:{}" onClick={this.spend}>Spend</a>
+                  </div>
+                );
+              }
+            });
+
+            ReactDOM.render(<SpendPanel />, document.getElementById("spendPanel"));
+          </script>
+        </div>
+
+        <div id="toast">
+          <h1></h1>
+          <p></p><a href="#" class="button">Close</a>
+        </div>
+      </div>
+    </div>
+    <div id="rangeContainer" class="row uniform">
+      <div id="range" class="3u 12u$(small)">
+        <header>
+          <h2>Willpower</h2>
+        </header>
+        <div id="slider">
+          <ul id="sliderButtons" class="actions"></ul>
+        </div>
+        <div id="bid"><a href="#" id="bidButton" class="button special big">Bid</a>
+        </div>
+        <div id="section2" class="3u 12u$(small)">&nbsp;</div>
+      </div>
+    </div>
+    <div class="row uniform">
+
+    </div>
+    <script src="/socket.io/socket.io.js" charset="utf-8"></script>
+    <script src="/lib/cookies.js"></script>
+    <script src="/lib/chance.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/player.js"></script>
+    <script src="/js/game.js"></script>
+    <script src="/js/slider.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js"></script>
+    <script src="/lib/skel.min.js"></script>
+    <script src="/lib/main.js"></script>
+  </body>
+</html>
