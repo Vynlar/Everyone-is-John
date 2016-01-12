@@ -15,8 +15,6 @@ socket.on "connect", ->
   if !username?
     username = chance.name({middle: true, prefix: true})
     Cookies.set "username", username
-  #document.getElementById("name").innerHTML = username
-  document.getElementById("name").value = username
 
   socket.emit "join",
     roomId: window.roomId
@@ -24,8 +22,7 @@ socket.on "connect", ->
     userId: Cookies.get "userId"
     username: Cookies.get "username"
 
-  console.log "LOG: emitted the join request"
-
+###
 socket.on "startBidding", (data) ->
   console.log "LOG: Start Bidding"
   window.resetSlider()
@@ -46,3 +43,4 @@ socket.on "stopBidding", (data) ->
 socket.on "willpower", (data) ->
   console.log "LOG: #{data.willpower} willpower"
   setWillpower data.willpower
+###

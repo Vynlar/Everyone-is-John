@@ -11,8 +11,11 @@ router.get '/game/create', (req, res) ->
   res.redirect 301, '/game/' + id
 
 router.get '/game/:id', (req, res) ->
-  #res.render 'game', title: 'Everyone Is John'
-  res.sendFile path.join __dirname, "../views/game.html"
+  res.render 'game', title: 'Everyone Is John'
+  #res.sendFile path.join __dirname, "../views/game.html"
+
+router.get '/reactgame/:id', (req, res) ->
+  res.sendFile path.join __dirname, "../views/reactgame.html"
 
 router.get '/gm/:id', (req, res) ->
   res.sendFile path.join __dirname, "../views/gm.html"

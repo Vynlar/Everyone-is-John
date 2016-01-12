@@ -129,6 +129,7 @@ class Player
   spend: (value) ->
     if value > @willpower then return
     @willpower -= value
+    @socket.emit "willpower", {willpower: @willpower}
     @room.updateGM()
   changeUsername: (username) ->
     if username == @username then return false
@@ -145,6 +146,7 @@ io.on "connection", (socket) ->
   player = null
 
   socket.on "join", (data) ->
+    console.log "tried to join"
     {roomId, type, username} = data
     userId = data.userId
     room = findRoom roomId
@@ -180,8 +182,6 @@ io.on "connection", (socket) ->
 
     #update GM on recent player changes
     room.updateGM()
-
-
 
     if player?
       console.log "LOG: #{player.username}(#{userId}) joined #{room.id}"

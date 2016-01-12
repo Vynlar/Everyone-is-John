@@ -1,0 +1,14 @@
+.arrow {
+  width: 16px;
+  height: 16px;
+  margin: auto;
+}
+
+.flip {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
