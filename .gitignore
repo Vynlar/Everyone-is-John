@@ -4,3 +4,5 @@ routes/index.js
 app.js
 prepros.cfg
 npm-debug.log
+public/components
+public/react

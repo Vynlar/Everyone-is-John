@@ -5,12 +5,17 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run coffee && node app.js",
-    "coffee": "coffee -c app.coffee && coffee -o public/js/ -c public/coffee/ && coffee -c routes/index.coffee"
+    "start": "npm run coffee && npm run babel:compile && node app.js",
+    "coffee": "coffee -c app.coffee && coffee -o public/js/ -c public/coffee/ && coffee -c routes/index.coffee",
+    "babel:compile": "babel components -d public/react"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-cli": "^6.4.0",
+    "babel-core": "^6.4.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
     "coffee-script": "^1.10.0",
     "express": "^4.13.3",
     "jade": "^1.11.0",
