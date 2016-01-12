@@ -1,6 +1,19 @@
-import React from "react";
+class Component extends React.Component {
+  bind(...methods) {
+    methods.forEach((method) => this[method] = this[method].bind(this));
+  }
+}
+class WillpowerRow extends Component{
+  constructor() {
+    super();
+    this.setState = this.setState.bind(this);
+    this.bid = this.bid.bind(this);
+    this.spend = this.spend.bind(this);
+    this.color = this.color.bind(this);
+    this.onLeave = this.onLeave.bind(this);
+    this.onEnter = this.onEnter.bind(this);
+  }
 
-class WillpowerRow extends React.Component{
   bid() {
     socket.emit("bid", {bid: this.props.index});
   }
@@ -37,9 +50,9 @@ class WillpowerRow extends React.Component{
 
   render() {
     return (
-      <tr onMouseEnter={this.onEnter} onMouseLeave={this.onLeave}>
+      <tr onMouseEnter={this.onEnter.bind(this)} onMouseLeave={this.onLeave.bind(this)}>
         <td>
-            <a href="#" onClick={this.bid}><img className="arrow" src="/images/arrow.png" /></a>
+            {this.props.bidding ? <a href="#" onClick={this.bid.bind(this)}><img className="arrow" src="/images/arrow.png" /></a> : null}
         </td>
         <td style={this.color()}>
           {this.props.index}
@@ -52,7 +65,19 @@ class WillpowerRow extends React.Component{
   }
 }
 
-class WillpowerSlider extends React.Component {
+class WillpowerSlider extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      willpower: 7,
+      hovered: -1,
+      bidding: false
+    }
+    this.onEnter = this.onEnter.bind(this);
+    this.onLeave = this.onLeave.bind(this);
+  }
+
   onEnter(index) {
     this.setState({hovered: index})
   }
@@ -61,24 +86,25 @@ class WillpowerSlider extends React.Component {
     this.setState({hovered: -1})
   }
 
-  getInitialState() {
-    return {
-      willpower: 7,
-      hovered: -1
-    };
-  }
-
   componentDidMount() {
     var slider = this;
     socket.on("willpower", function(data) {
       console.log(data);
+      //slider.state.willpower = data.willpower;
       slider.setState({willpower: data.willpower});
     });
+    socket.on("startBidding", () => {
+        slider.setState({"bidding": true});
+    });
+    socket.on("stopBidding", () => {
+        slider.setState({"bidding": false});
+    });
   }
+
   render() {
     var rows = []
     for(var i = this.state.willpower; i >= 0; i--) {
-        rows.push(<WillpowerRow key={i} index={i} willpower={this.state.willpower} hovered={this.state.hovered} onEnter={this.onEnter} onLeave={this.onLeave} />);
+        rows.push(<WillpowerRow key={i} index={i} bidding={this.state.bidding} willpower={this.state.willpower} hovered={this.state.hovered} onEnter={this.onEnter} onLeave={this.onLeave} />);
     }
     return (
       <table>
@@ -98,3 +124,5 @@ class WillpowerSlider extends React.Component {
     );
   }
 }
+
+ReactDOM.render(<WillpowerSlider length={10} />, document.getElementById("content"));

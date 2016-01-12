@@ -14,7 +14,7 @@ router.get '/game/:id', (req, res) ->
   res.render 'game', title: 'Everyone Is John'
   #res.sendFile path.join __dirname, "../views/game.html"
 
-router.get '/reactgame/:id', (req, res) ->
+router.get '/beta/:id', (req, res) ->
   res.sendFile path.join __dirname, "../views/reactgame.html"
 
 router.get '/gm/:id', (req, res) ->

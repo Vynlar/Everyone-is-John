@@ -11,112 +11,23 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.js"></script>-->
   </head>
 
   <body>
     <div id="content"></div>
 
-    <script type="text/babel">
-      var WillpowerRow = React.createClass({
-        bid: function() {
-          socket.emit("bid", {bid: this.props.index});
-        },
-        spend: function() {
-          socket.emit("spend", {amount: this.props.index});
-        },
-        color: function() {
-          var background = "";
-          var percent = ((this.props.index + 1)/this.props.willpower);
-          var hue = Math.floor(100 * percent);
-          if(this.props.hovered >= 0 && this.props.index <= this.props.hovered) {
-            background = "hsl("+hue+", 100%, 35%)";
-          } else {
-            background = "hsl("+hue+", 40%, 30%)";
-          }
-          return {
-            background: background,
-            width: "150px",
-            textAlign: "center",
-            color: "white",
-            transition: "background .5s"
-          };
-        },
-        onEnter: function() {
-          this.props.onEnter(this.props.index);
-        },
-        onLeave: function() {
-          this.props.onLeave();
-        },
-        render: function() {
-          return (
-            <tr onMouseEnter={this.onEnter} onMouseLeave={this.onLeave}>
-              <td>
-                  <a href="#" onClick={this.bid}><img className="arrow" src="/images/arrow.png" /></a>
-              </td>
-              <td style={this.color()}>
-                {this.props.index}
-              </td>
-              <td>
-                <a href="#" onClick={this.spend}><img className="arrow flip" src="/images/arrow.png" /></a>
-              </td>
-            </tr>
-          );
-        }
-      });
-
-      var WillpowerSlider = React.createClass({
-        onEnter: function(index) {
-          this.setState({hovered: index})
-        },
-        onLeave: function() {
-          this.setState({hovered: -1})
-        },
-        getInitialState: function() {
-          return {
-            willpower: 7,
-            hovered: -1
-          };
-        },
-        componentDidMount: function() {
-          var slider = this;
-          socket.on("willpower", function(data) {
-            console.log(data);
-            slider.setState({willpower: data.willpower});
-          });
-        },
-        render: function() {
-          var rows = []
-          for(var i = this.state.willpower; i >= 0; i--) {
-              rows.push(<WillpowerRow key={i} index={i} willpower={this.state.willpower} hovered={this.state.hovered} onEnter={this.onEnter} onLeave={this.onLeave} />);
-          }
-          return (
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    Bid
-                  </td>
-                  <td></td>
-                  <td>
-                    Spend
-                  </td>
-                </tr>
-                {rows}
-              </tbody>
-            </table>
-          );
-        }
-      });
-
-      ReactDOM.render(<WillpowerSlider length={10} />, document.getElementById("content"));
-    </script>
 
     </div>
     <script src="/socket.io/socket.io.js" charset="utf-8"></script>
+    <!-- Libraries -->
     <script src="/lib/cookies.js"></script>
     <script src="/lib/chance.js"></script>
+    <!-- Shared Scripts -->
     <script src="/js/common.js"></script>
+    <!-- Scripts -->
     <script src="/js/player.js"></script>
+    <!-- Components -->
+    <script type="text/javascript" src="/react/WillpowerSlider.js"></script>
   </body>
 </html>
