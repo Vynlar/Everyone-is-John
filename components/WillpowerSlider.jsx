@@ -1,21 +1,17 @@
 class Component extends React.Component {
-  bind(...methods) {
+  _bind(...methods) {
     methods.forEach((method) => this[method] = this[method].bind(this));
   }
 }
 class WillpowerRow extends Component{
   constructor() {
     super();
-    this.setState = this.setState.bind(this);
-    this.bid = this.bid.bind(this);
-    this.spend = this.spend.bind(this);
-    this.color = this.color.bind(this);
-    this.onLeave = this.onLeave.bind(this);
-    this.onEnter = this.onEnter.bind(this);
+    this._bind("setState", "bid", "spend", "color", "onLeave", "onLeave");
   }
 
   bid() {
     socket.emit("bid", {bid: this.props.index});
+    this.props.lock(this.props.index);
   }
 
   spend() {
@@ -26,11 +22,15 @@ class WillpowerRow extends Component{
     var background = "";
     var percent = ((this.props.index + 1)/this.props.willpower);
     var hue = Math.floor(100 * percent);
-    if(this.props.hovered >= 0 && this.props.index <= this.props.hovered) {
+    console.log(this.props.locked);
+    if(this.props.locked >= 0 && this.props.index <= this.props.locked) {
+      background = "hsl("+hue+", 100%, 35%)";
+    } else if(this.props.hovered >= 0 && this.props.index <= this.props.hovered) {
       background = "hsl("+hue+", 100%, 35%)";
     } else {
       background = "hsl("+hue+", 40%, 30%)";
     }
+
     return {
       background: background,
       width: "150px",
@@ -41,11 +41,11 @@ class WillpowerRow extends Component{
   }
 
   onEnter() {
-    this.props.onEnter(this.props.index);
+    this.props.setHover(this.props.index);
   }
 
   onLeave() {
-    this.props.onLeave();
+    this.props.setHover(false);
   }
 
   render() {
@@ -70,20 +70,25 @@ class WillpowerSlider extends Component {
   constructor() {
     super();
     this.state = {
-      willpower: 7,
+      willpower: 0,
       hovered: -1,
-      bidding: false
+      bidding: false,
+      locked: -1
     }
-    this.onEnter = this.onEnter.bind(this);
-    this.onLeave = this.onLeave.bind(this);
+    this._bind("lock", "setHover");
   }
 
-  onEnter(index) {
-    this.setState({hovered: index})
+  setHover(index) {
+    if(index == false) {
+      this.setState({hovered: -1});
+    } else {
+      this.setState({hovered: index});
+    }
   }
 
-  onLeave() {
-    this.setState({hovered: -1})
+  lock(index) {
+    this.setState({locked: index});
+    console.log("Set the locked to " + index);
   }
 
   componentDidMount() {
@@ -98,13 +103,23 @@ class WillpowerSlider extends Component {
     });
     socket.on("stopBidding", () => {
         slider.setState({"bidding": false});
+        slider.lock(-1)
     });
   }
 
   render() {
     var rows = []
     for(var i = this.state.willpower; i >= 0; i--) {
-        rows.push(<WillpowerRow key={i} index={i} bidding={this.state.bidding} willpower={this.state.willpower} hovered={this.state.hovered} onEnter={this.onEnter} onLeave={this.onLeave} />);
+        rows.push(<WillpowerRow
+          key={i}
+          index={i}
+          bidding={this.state.bidding}
+          willpower={this.state.willpower}
+          hovered={this.state.hovered}
+          setHover={this.setHover}
+          lock={this.lock}
+          locked={this.state.locked}
+        />);
     }
     return (
       <table>
@@ -125,4 +140,4 @@ class WillpowerSlider extends Component {
   }
 }
 
-ReactDOM.render(<WillpowerSlider length={10} />, document.getElementById("content"));
+ReactDOM.render(<WillpowerSlider length={10} />, document.getElementById("slider"));

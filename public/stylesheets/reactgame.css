@@ -12,3 +12,18 @@
   filter: FlipH;
   -ms-filter: "FlipH";
 }
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+#wrapper {
+  width: 70%;
+  margin: auto;
+}
+
+#slider {
+  width: 20%;
+  margin: auto;
+}
