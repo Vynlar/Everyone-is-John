@@ -22,22 +22,34 @@ class WillpowerRow extends Component{
     var background = "";
     var percent = ((this.props.index + 1)/this.props.willpower);
     var hue = Math.floor(100 * percent);
-    console.log(this.props.locked);
+
+    var highlight = () => background = "hsl("+hue+", 100%, 35%)";
     if(this.props.locked >= 0 && this.props.index <= this.props.locked) {
-      background = "hsl("+hue+", 100%, 35%)";
+      highlight();
     } else if(this.props.hovered >= 0 && this.props.index <= this.props.hovered) {
-      background = "hsl("+hue+", 100%, 35%)";
+      highlight();
     } else {
       background = "hsl("+hue+", 40%, 30%)";
     }
 
-    return {
+    var result = {
       background: background,
-      width: "150px",
+      width: "200px",
       textAlign: "center",
       color: "white",
-      transition: "background .5s"
+      transition: "background .5s",
+      height: 65/this.props.willpower + "vh",
+      verticalAligh: "middle",
+      fontSize: "2.5em"
     };
+
+    if(this.props.index == this.props.willpower) {
+      result.borderRadius = "10px 10px 0 0";
+    }
+    if(this.props.index == 0) {
+      result.borderRadius = "0 0 10px 10px";
+    }
+    return result;
   }
 
   onEnter() {
@@ -55,7 +67,7 @@ class WillpowerRow extends Component{
             {this.props.bidding ? <a href="#" onClick={this.bid.bind(this)}><img className="arrow" src="/images/arrow.png" /></a> : null}
         </td>
         <td style={this.color()}>
-          {this.props.index}
+          <p>{this.props.index}</p>
         </td>
         <td>
           <a href="#" onClick={this.spend}><img className="arrow flip" src="/images/arrow.png" /></a>
@@ -79,7 +91,7 @@ class WillpowerSlider extends Component {
   }
 
   setHover(index) {
-    if(index == false) {
+    if(index === false) {
       this.setState({hovered: -1});
     } else {
       this.setState({hovered: index});
@@ -88,14 +100,11 @@ class WillpowerSlider extends Component {
 
   lock(index) {
     this.setState({locked: index});
-    console.log("Set the locked to " + index);
   }
 
   componentDidMount() {
     var slider = this;
     socket.on("willpower", function(data) {
-      console.log(data);
-      //slider.state.willpower = data.willpower;
       slider.setState({willpower: data.willpower});
     });
     socket.on("startBidding", () => {
@@ -125,11 +134,11 @@ class WillpowerSlider extends Component {
       <table>
         <tbody>
           <tr>
-            <td>
+            <td className="tableHeader">
               Bid
             </td>
             <td></td>
-            <td>
+            <td className="tableHeader">
               Spend
             </td>
           </tr>
