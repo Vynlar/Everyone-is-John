@@ -6,7 +6,7 @@ class Component extends React.Component {
 class WillpowerRow extends Component{
   constructor() {
     super();
-    this._bind("setState", "bid", "spend", "color", "onLeave", "onLeave");
+    this._bind("setState", "bid", "spend", "color", "onLeave", "onEnter", "click");
   }
 
   bid() {
@@ -16,6 +16,14 @@ class WillpowerRow extends Component{
 
   spend() {
     socket.emit("spend", {amount: this.props.index});
+  }
+
+  click() {
+    if(this.props.bidding) {
+      this.bid();
+    } else {
+      this.spend();
+    }
   }
 
   color() {
@@ -38,10 +46,12 @@ class WillpowerRow extends Component{
       textAlign: "center",
       color: "white",
       transition: "background .5s",
-      height: 65/this.props.willpower + "vh",
-      verticalAligh: "middle",
+      height: Math.floor(65/this.props.willpower) + "vh",
+      verticalAlign: "middle",
       fontSize: "2.5em"
     };
+
+    result.height = "1.4em";
 
     if(this.props.index == this.props.willpower) {
       result.borderRadius = "10px 10px 0 0";
@@ -62,11 +72,11 @@ class WillpowerRow extends Component{
 
   render() {
     return (
-      <tr onMouseEnter={this.onEnter.bind(this)} onMouseLeave={this.onLeave.bind(this)}>
+      <tr onMouseEnter={this.onEnter} onMouseLeave={this.onLeave}>
         <td>
-            {this.props.bidding ? <a href="#" onClick={this.bid.bind(this)}><img className="arrow" src="/images/arrow.png" /></a> : null}
+          {this.props.bidding ? <a href="#" onClick={this.bid}><img className="arrow" src="/images/arrow.png" /></a> : null}
         </td>
-        <td style={this.color()}>
+        <td style={this.color()} onClick={this.click}>
           <p>{this.props.index}</p>
         </td>
         <td>
@@ -135,11 +145,9 @@ class WillpowerSlider extends Component {
         <tbody>
           <tr>
             <td className="tableHeader">
-              Bid
             </td>
             <td></td>
             <td className="tableHeader">
-              Spend
             </td>
           </tr>
           {rows}
