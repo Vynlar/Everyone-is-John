@@ -3,18 +3,20 @@ window.socket = io()
 GM = 0
 PC = 1
 
+###
 window.setUsername = (username) ->
   if username?
     Cookies.set "username", username
     socket.emit 'changeUsername', { username: username }
+###
+
+username = Cookies.get "username"
+if !username?
+  username = chance.name({middle: true, prefix: true})
+  Cookies.set "username", username
 
 socket.on "connect", ->
   console.log "LOG: connected to socket"
-
-  username = Cookies.get "username"
-  if !username?
-    username = chance.name({middle: true, prefix: true})
-    Cookies.set "username", username
 
   socket.emit "join",
     roomId: window.roomId

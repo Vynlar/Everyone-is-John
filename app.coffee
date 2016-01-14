@@ -51,11 +51,9 @@ class Room
     player.makeBid bid
     @processBids()
   processBids: () ->
-    #check to see if all the bids are in yet
     for player in @players
       if player.bid == null then return
 
-    # HACK: MESSY CODE, PLEASE FIX ME!
     highest = @players[0]
     ties = []
     for player in @players
@@ -181,11 +179,11 @@ io.on "connection", (socket) ->
         willpower: player.willpower
       if room.bidding == true
         player.socket.emit "startBidding"
-      if room.winner?
-        player.socket.emit "winner", room.winner
+      player.socket.emit "winner", room.winner
     else if type == GM
       room.setGM userId, socket
       typeName = "GM"
+      socket.emit "stopBidding", {winner: room.winner}
 
     #update GM on recent player changes
     room.updateGM()
@@ -212,6 +210,7 @@ io.on "connection", (socket) ->
       console.log "LOG: #{player.username} changed their name to '#{data.username}'"
     else
       console.log "ERROR: #{player.username} was already named that!"
+    room.updateGM()
 
   socket.on "spend", (data) ->
     if !player? then return

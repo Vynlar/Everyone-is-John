@@ -13,19 +13,6 @@
     <h1>JOHN</h1>
 
     <script type="text/babel">
-      window.players = [
-        {
-          id: 0,
-          username: "Adrian",
-          willpower: 9
-        },
-        {
-          id: 1,
-          username: "Nick",
-          willpower: 8
-        }
-      ];
-
       var Player = React.createClass({
         render: function() {
           return (
@@ -95,8 +82,11 @@
       ReactDOM.render(<PlayerLink />, document.getElementById("playerLink"));
     </script>
 
+    <div id="winner"></div>
+
     <script src="/socket.io/socket.io.js" charset="utf-8"></script>
     <script src="/js/common.js" charset="utf-8"></script>
     <script src="/js/gm.js" charset="utf-8"></script>
+    <script src="/react/GMPage.js" charset="utf-8"></script>
   </body>
 </html>

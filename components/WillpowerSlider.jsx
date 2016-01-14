@@ -76,7 +76,6 @@ class WillpowerRow extends Component{
 }
 
 class WillpowerSlider extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -107,12 +106,15 @@ class WillpowerSlider extends Component {
       slider.setState({willpower: data.willpower});
     });
     socket.on("startBidding", () => {
-        slider.setState({"bidding": true});
+      slider.setState({"bidding": true});
     });
     socket.on("stopBidding", (data) => {
-        slider.setState({"bidding": false,
-                         "winner": data.winner});
-        slider.lock(-1)
+      slider.setState({"bidding": false,
+                       "winner": data.winner});
+      slider.lock(-1)
+    });
+    socket.on("winner", (data) => {
+      slider.setState({"winner": data});
     });
   }
 
@@ -132,7 +134,6 @@ class WillpowerSlider extends Component {
     }
     return (
       <div className="relative">
-        <h3>{window.username}</h3>
         <table>
           <tbody>
             {rows}
@@ -146,7 +147,7 @@ class WillpowerSlider extends Component {
             <h1>Spend</h1>
           </div>
         </div>
-        <div id="winner">
+        <div style={this.state.winner === "" ? {display: "none"} : null} id="winner">
           <h3>{this.state.winner}</h3>
         </div>
       </div>
@@ -154,4 +155,75 @@ class WillpowerSlider extends Component {
   }
 }
 
+class Username extends Component {
+  constructor() {
+    super();
+    this.state = {
+        username: Cookies.get("username")
+    }
+    this._bind("changeUsername");
+  }
+
+  componentDidMount() {
+    /*j
+    var url = window.location.href;
+    url = url.split("/");
+    url = url[url.length - 1];
+    url = url.split("#")[0];
+    var roomId = url;
+
+    guid = () => {
+      s4 = () => {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+      }
+    }
+
+    var userId = Cookies.get("userId");
+    if(userId === undefined || userId === null) {
+      userId = guid();
+    }
+
+    Cookies.set("userId", window.userId, {expires: 2592000});
+
+    var component = this;
+    socket.on("connect", () => {
+      var username = Cookies.get("username");
+      if(username === undefined || username === null) {
+        username = chance.name({middle: true, prefix: true});
+        Cookies.set("username", username);
+      }
+      component.setState({"username": username});
+
+      socket.emit("join", {
+        roomId: roomId,
+        type: 1,
+        userId: Cookies.get("userId"),
+        username: Cookies.get("username")
+      });
+    }
+    */
+  }
+
+  changeUsername() {
+    var newUsername = this.refs.username.value;
+    if(newUsername === this.state.username) return;
+    this.setState({"username": newUsername});
+    Cookies.set("username", newUsername);
+    socket.emit("changeUsername", {username: newUsername});
+  }
+
+  render() {
+    return (
+        <div>
+          <input id="usernameInput" onBlur={this.changeUsername} ref="username" defaultValue={this.state.username} />
+        </div>
+    );
+  }
+}
+
 ReactDOM.render(<WillpowerSlider length={10} />, document.getElementById("slider"));
+ReactDOM.render(<Username />, document.getElementById("username"));
