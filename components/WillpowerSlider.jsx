@@ -29,7 +29,7 @@ class WillpowerRow extends Component{
   color() {
     var background = "";
     var percent = ((this.props.index + 1)/this.props.willpower);
-    var hue = Math.floor(100 * percent);
+    var hue = Math.round(100 * percent);
 
     var highlight = () => background = "hsl("+hue+", 100%, 35%)";
     if(this.props.locked >= 0 && this.props.index <= this.props.locked) {
@@ -42,13 +42,7 @@ class WillpowerRow extends Component{
 
     var result = {
       background: background,
-      width: "200px",
-      textAlign: "center",
-      color: "white",
-      transition: "background .5s",
       height: Math.floor(65/this.props.willpower) + "vh",
-      verticalAlign: "middle",
-      fontSize: "2.5em"
     };
 
     result.height = "1.4em";
@@ -73,14 +67,8 @@ class WillpowerRow extends Component{
   render() {
     return (
       <tr onMouseEnter={this.onEnter} onMouseLeave={this.onLeave}>
-        <td>
-          {this.props.bidding ? <a href="#" onClick={this.bid}><img className="arrow" src="/images/arrow.png" /></a> : null}
-        </td>
-        <td style={this.color()} onClick={this.click}>
+        <td className="sliderTile" style={this.color()} onClick={this.click}>
           <p>{this.props.index}</p>
-        </td>
-        <td>
-          <a href="#" onClick={this.spend}><img className="arrow flip" src="/images/arrow.png" /></a>
         </td>
       </tr>
     );
@@ -95,7 +83,8 @@ class WillpowerSlider extends Component {
       willpower: 0,
       hovered: -1,
       bidding: false,
-      locked: -1
+      locked: -1,
+      winner: "Nothing"
     }
     this._bind("lock", "setHover");
   }
@@ -120,8 +109,9 @@ class WillpowerSlider extends Component {
     socket.on("startBidding", () => {
         slider.setState({"bidding": true});
     });
-    socket.on("stopBidding", () => {
-        slider.setState({"bidding": false});
+    socket.on("stopBidding", (data) => {
+        slider.setState({"bidding": false,
+                         "winner": data.winner});
         slider.lock(-1)
     });
   }
@@ -141,21 +131,24 @@ class WillpowerSlider extends Component {
         />);
     }
     return (
-      <div>
+      <div className="relative">
+        <h3>{window.username}</h3>
         <table>
           <tbody>
-            <tr>
-              <td className="tableHeader">
-              </td>
-              <td></td>
-              <td className="tableHeader">
-              </td>
-            </tr>
             {rows}
           </tbody>
         </table>
-        <h2>{this.state.bidding == true ? "Bidding" : "Spending"}</h2>
-        <h3>{window.username}</h3>
+        <div id="biddingIndicator">
+          <div className={this.state.bidding ? "highlighted" : null}>
+            <h1>Bid</h1>
+          </div>
+          <div className={this.state.bidding ? null : "highlighted"}>
+            <h1>Spend</h1>
+          </div>
+        </div>
+        <div id="winner">
+          <h3>{this.state.winner}</h3>
+        </div>
       </div>
     );
   }

@@ -16,6 +16,7 @@ class Room
     @id = roomId
     @GM = null
     @bidding = true
+    @winner = ""
   addPlayer: (player) ->
     @players.push player
   removeUser: (id) ->
@@ -68,6 +69,7 @@ class Room
       i = Math.floor(Math.random() * ties.length)
       highest = ties[i]
 
+    @winner = highest.username
     highest.spend highest.bid
     @bidding = false
     @resetPlayers()
@@ -179,6 +181,8 @@ io.on "connection", (socket) ->
         willpower: player.willpower
       if room.bidding == true
         player.socket.emit "startBidding"
+      if room.winner?
+        player.socket.emit "winner", room.winner
     else if type == GM
       room.setGM userId, socket
       typeName = "GM"
