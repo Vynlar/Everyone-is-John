@@ -141,18 +141,22 @@ class WillpowerSlider extends Component {
         />);
     }
     return (
-      <table>
-        <tbody>
-          <tr>
-            <td className="tableHeader">
-            </td>
-            <td></td>
-            <td className="tableHeader">
-            </td>
-          </tr>
-          {rows}
-        </tbody>
-      </table>
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <td className="tableHeader">
+              </td>
+              <td></td>
+              <td className="tableHeader">
+              </td>
+            </tr>
+            {rows}
+          </tbody>
+        </table>
+        <h2>{this.state.bidding == true ? "Bidding" : "Spending"}</h2>
+        <h3>{window.username}</h3>
+      </div>
     );
   }
 }

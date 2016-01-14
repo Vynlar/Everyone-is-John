@@ -39,6 +39,9 @@ class Room
     @GM = {id: id, socket: socket}
   startBidding: () ->
     @bidding = true
+    @eachPlayer (player) ->
+      player.willpower++
+      player.socket.emit "willpower", {willpower: player.willpower}
     @emitToPlayers "startBidding"
   bid: (id, bid) ->
     if @bidding == false then return
@@ -124,8 +127,7 @@ class Player
     @willpower = 10
     @left = false
   makeBid: (bid) ->
-    if !@bid?
-      @bid = bid
+    @bid = bid
   spend: (value) ->
     if value > @willpower then return
     @willpower -= value
