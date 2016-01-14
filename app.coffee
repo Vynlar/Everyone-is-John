@@ -29,12 +29,12 @@ class Room
         index = i
     if index != -1
       @players[index].left = true
-      players = @players
-      roomId = @id
-      setTimeout (->
+
+      setTimeout (=>
         if player.left == true
-          players.splice index, 1
-          console.log "LOG: #{player.username} is inactive. Removed them from #{roomId}"
+          @players.splice index, 1
+          @updateGM()
+          console.log "LOG: #{player.username} is inactive. Removed them from #{@roomId}"
       ),1000*10
   setGM: (id, socket) ->
     @GM = {id: id, socket: socket}
