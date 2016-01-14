@@ -32,35 +32,49 @@ class WillpowerRow extends Component{
     var hue = Math.round(100 * percent);
 
     var highlight = () => background = "hsl("+hue+", 100%, 35%)";
-    if(this.props.locked >= 0 && this.props.index <= this.props.locked) {
-      highlight();
-    } else if(this.props.hovered >= 0 && this.props.index <= this.props.hovered) {
+    var darken = () => background = "hsl("+hue+", 40%, 30%)";
+    if(this.props.hovered >= 0 && this.props.index <= this.props.hovered) {
       if(this.props.hovered == 0) {
         highlight();
       } else if(this.props.index == 0 && this.props.hovered != 0) {
-        //do nothing
-        background = "hsl("+hue+", 40%, 30%)";
+        darken();
       } else {
         highlight();
       }
+    } else if(this.props.locked >= 0 && this.props.index <= this.props.locked) {
+      if(this.props.index != 0) {
+        highlight();
+      } else {
+        darken();
+      }
     } else {
-      background = "hsl("+hue+", 40%, 30%)";
+      darken();
     }
 
-    var result = {
+    var style = {
       background: background,
       height: Math.floor(65/this.props.willpower) + "vh",
     };
 
-    result.height = "1.4em";
+    style.height = "1.4em";
 
     if(this.props.index == this.props.willpower) {
-      result.borderRadius = "10px 10px 0 0";
+      style.borderRadius = "5px 5px 0 0";
+    }
+    if(this.props.index == 1) {
+      style.borderRadius = "0 0 5px 5px";
     }
     if(this.props.index == 0) {
-      result.borderRadius = "0 0 10px 10px";
+      style.borderRadius = "5px 5px 5px 5px";
+      if(this.props.willpoer != 0) {
+        style.marginTop = ".3em";
+      }
     }
-    return result;
+    if(this.props.willpower == 1 && this.props.index == 1) {
+      style.borderRadius = "5px 5px 5px 5px";
+    }
+
+    return style;
   }
 
   onEnter() {
@@ -74,8 +88,10 @@ class WillpowerRow extends Component{
   render() {
     return (
       <tr onMouseEnter={this.onEnter} onMouseLeave={this.onLeave}>
-        <td className="sliderTile" style={this.color()} onClick={this.click}>
-          <p>{this.props.index}</p>
+        <td className="sliderTile" onClick={this.click}>
+          <div style={this.color()}>
+            <p>{this.props.index}</p>
+          </div>
         </td>
       </tr>
     );

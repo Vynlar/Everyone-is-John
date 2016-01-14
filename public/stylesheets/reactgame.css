@@ -75,6 +75,10 @@ table {
   font-size: 2.5em;
 }
 
+.sliderTile p {
+	padding-top: 8px;
+}
+
 #biddingIndicator {
 	margin-bottom: .75em;
 	position: absolute;
@@ -88,7 +92,7 @@ table {
 	width: 150px;
 	margin: auto;
 	margin-bottom: .3em;
-	border-radius: 10px;
+	border-radius: 5px;
 	color: white;
 	font-size: 2em;
 	transition: background .3s;
@@ -106,13 +110,17 @@ table {
 	margin-bottom: 1em;
 }
 
+#usernameInput:focus {
+	outline: none;
+}
+
 #winner {
 	padding: .5em;
 	background: grey;
 	width: 150px;
 	margin: auto;
 	margin-bottom: .3em;
-	border-radius: 10px;
+	border-radius: 5px;
 	color: white;
 	font-size: 2em;
 	position: absolute;
