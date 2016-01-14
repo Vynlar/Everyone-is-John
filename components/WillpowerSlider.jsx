@@ -35,7 +35,14 @@ class WillpowerRow extends Component{
     if(this.props.locked >= 0 && this.props.index <= this.props.locked) {
       highlight();
     } else if(this.props.hovered >= 0 && this.props.index <= this.props.hovered) {
-      highlight();
+      if(this.props.hovered == 0) {
+        highlight();
+      } else if(this.props.index == 0 && this.props.hovered != 0) {
+        //do nothing
+        background = "hsl("+hue+", 40%, 30%)";
+      } else {
+        highlight();
+      }
     } else {
       background = "hsl("+hue+", 40%, 30%)";
     }

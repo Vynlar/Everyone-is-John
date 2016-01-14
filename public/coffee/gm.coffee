@@ -14,3 +14,6 @@ socket.on "connect", () ->
 
 document.getElementById("beginTest").addEventListener "click", (e) ->
   socket.emit "startBidding"
+
+document.getElementById("sleep").addEventListener "click", (e) ->
+  socket.emit "sleep"

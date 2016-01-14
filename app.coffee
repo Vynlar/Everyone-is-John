@@ -40,9 +40,6 @@ class Room
     @GM = {id: id, socket: socket}
   startBidding: () ->
     @bidding = true
-    @eachPlayer (player) ->
-      player.willpower++
-      player.socket.emit "willpower", {willpower: player.willpower}
     @updateGM()
     @emitToPlayers "startBidding"
   bid: (id, bid) ->
@@ -50,6 +47,11 @@ class Room
     player = @findPlayer id
     player.makeBid bid
     @processBids()
+  sleep: () ->
+    @eachPlayer (player) ->
+      player.willpower++
+      player.socket.emit "willpower", {willpower: player.willpower}
+    @updateGM()
   processBids: () ->
     for player in @players
       if player.bid == null then return
@@ -211,6 +213,10 @@ io.on "connection", (socket) ->
     else
       console.log "ERROR: #{player.username} was already named that!"
     room.updateGM()
+
+
+  socket.on "sleep", (data) ->
+    room.sleep()
 
   socket.on "spend", (data) ->
     if !player? then return
