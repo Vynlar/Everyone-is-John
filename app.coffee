@@ -42,6 +42,7 @@ class Room
     @eachPlayer (player) ->
       player.willpower++
       player.socket.emit "willpower", {willpower: player.willpower}
+    @updateGM()
     @emitToPlayers "startBidding"
   bid: (id, bid) ->
     if @bidding == false then return
