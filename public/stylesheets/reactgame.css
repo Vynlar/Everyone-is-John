@@ -79,11 +79,18 @@ table {
 	padding-top: 8px;
 }
 
+.boxTitle {
+	text-align: left;
+	color: grey;
+	font-variant: small-caps;
+	margin-bottom: .4em;
+}
+
 #biddingIndicator {
 	margin-bottom: .75em;
 	position: absolute;
 	left: -200px;
-	top: 0;
+	top: 0px;
 }
 
 #biddingIndicator div{
@@ -96,46 +103,62 @@ table {
 	color: white;
 	font-size: 2em;
 	transition: background .3s;
+	display: none;
 }
 
 #biddingIndicator .highlighted {
 	background: hsl(100, 40%, 30%);
+	display: block;
 }
 
 #usernameInput {
-	text-align: center;
 	border: none;
 	color: grey;
-	font-size: 1em;
-	margin-bottom: 1em;
+	font-size: 1.4em;
+	padding: .3em;
+	background: rgba(255, 255, 255, 0);
 }
 
 #usernameInput:focus {
 	outline: none;
 }
 
-#winner {
-	padding: .5em;
-	background: grey;
-	width: 150px;
-	margin: auto;
-	margin-bottom: .3em;
-	border-radius: 5px;
-	color: white;
-	font-size: 2em;
+#username {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+}
+
+#winnerWrapper {
+	position: relative;
 	position: absolute;
 	left: 220px;
 	top: 0;
+	margin-bottom: .3em;
+	width: 150px;
+	margin: auto;
+	top: 0px;
+}
+
+#winner {
+	padding: .5em;
+	background: grey;
+	border-radius: 5px;
+	color: white;
+	font-size: 2em;
+	width: 100%;
 }
 
 #title {
   text-align: center;
-  margin-bottom: .5rem;
+	margin: auto;
+  margin-bottom: 1.0rem;
   margin-top: 2.3rem;
-	font-weight: 500;
+	font-weight: 600;
   font-size: 3em;
 	color: grey;
 	text-transform: uppercase;
+	letter-spacing: -.1rem;
 }
 
 .tableHeader {

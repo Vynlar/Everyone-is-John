@@ -157,21 +157,26 @@ class WillpowerSlider extends Component {
     }
     return (
       <div className="relative">
+        <p className="boxTitle">Willpower</p>
         <table>
           <tbody>
             {rows}
           </tbody>
         </table>
         <div id="biddingIndicator">
+          <p className="boxTitle">Currently</p>
           <div className={this.state.bidding ? "highlighted" : null}>
-            <h1>Bid</h1>
+            <h1>Bidding</h1>
           </div>
           <div className={this.state.bidding ? null : "highlighted"}>
-            <h1>Spend</h1>
+            <h1>Spending</h1>
           </div>
         </div>
-        <div style={this.state.winner === "" ? {display: "none"} : null} id="winner">
-          <h3>{this.state.winner}</h3>
+        <div style={this.state.winner === "" ? {display: "none"} : null} id="winnerWrapper">
+          <p className="boxTitle">In Control</p>
+          <div  id="winner">
+            <h3>{this.state.winner}</h3>
+          </div>
         </div>
       </div>
     );

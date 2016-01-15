@@ -207,9 +207,10 @@ io.on "connection", (socket) ->
 
   socket.on "changeUsername", (data) ->
     if !player? then return
+    oldUsername = player.username
     data.username.replace(/[^a-zA-Z0-9\s[.]/g, "")
     if player.changeUsername data.username
-      console.log "LOG: #{player.username} changed their name to '#{data.username}'"
+      console.log "LOG: #{oldUsername} changed their name to '#{data.username}'"
     else
       console.log "ERROR: #{player.username} was already named that!"
     room.updateGM()
