@@ -53,13 +53,9 @@
               <h1>{this.props.player.username}</h1>
               <h2>{this.props.player.willpower}</h2>
               <ul className="actions willpowerControls">
-<<<<<<< HEAD
                 <li><a href="#" className="button willpowerControl" onClick={this.updateWillpower.bind(this, -1)}>-1</a></li>
                 <li><a href="#" className="button willpowerControl" onClick={this.updateWillpower.bind(this, +1)}>+1</a></li>
-=======
-                <li><a href="#" className="button willpowerControl" href={'javascript:updateWillpower("' + this.props.player.id + '",-1)'}>-1</a></li>
-                <li><a href="#" className="button willpowerControl" href={'javascript:updateWillpower("' + this.props.player.id + '",+1)'}>+1</a></li>
->>>>>>> 19b88b990f9fd0e13255fb3299a6a79eee0251ed
+
               </ul>
             </div>
           );
