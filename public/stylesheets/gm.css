@@ -1,0 +1,67 @@
+#banner {
+    padding: 3em 0 2em 0;
+}
+
+#banner *:not(.actions) {
+  margin:0 !important;
+}
+
+#playerLink h3 {
+  color:#3E82C7;
+  text-decoration:underline;
+}
+
+#playerQRCode { text-align:center; }
+
+#playerQRCode img {
+  width:156px;
+  position:relative;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.actions {
+  margin-top: 10px !important;
+  position: relative;
+}
+
+.player {
+  margin-top:20px;
+  
+  width:75%;
+  height:300px;
+  background:#EFEFEF;
+  border-radius:5px;
+  
+  position:relative;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.player * { margin:0; }
+
+.player h1, h2, h3, h4, h5, h6 { color: #000; }
+
+.player h1 {
+  font-size:1.5em;
+  text-align:center;
+  white-space: nowrap; 
+  padding: 0 1em 0 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player h1:hover {
+  overflow:visible;
+  white-space: normal; 
+}
+
+.player h2 {
+  font-size:4em;
+  text-align:center;
+}
+
+.won .player { background: #1ACA30; }
+.tie .player { background: #F9C03F; }
+
+#winner { display: none; }

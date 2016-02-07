@@ -8,18 +8,45 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
       <script src="/lib/qrcode.min.js" charset="utf-8"></script>
       <script src="/lib/cookies.js" charset="utf-8"></script>
+      
+      <link rel="stylesheet" href="/stylesheets/main.css">
+      <link rel="stylesheet" href="/stylesheets/gm.css">
   </head>
   <body>
-    <h1>JOHN</h1>
-
+    <header id="header">
+      <h1>EVERYONE IS JOHN</h1>
+    </header>
+    <!-- TOP INFO -->
+    <section id="banner">
+      <div class="row">
+        <section class="4u 12u$(medium)">
+          &nbsp;
+        </section>
+        <section class="4u 12u$(medium)">
+          <h2><span id="gameName"></span></h2>
+          <div id="playerLink"></div>
+          <ul class="actions">
+            <li><a href="#" class="button special" id="beginTest" href="javascript:{}">Test For Control!</a></li>
+            <li><a href="#" class="button" id="sleep" href="javascript:{}">+1 Willpower (All)</a></li>
+          </ul>
+        </section>
+        <section class="4u 12u$(medium)">
+          <h3>QR Code</h3>
+          <div id="playerQRCode"></div>
+        </section>
+      </div>
+    </section>
+    <!-- PLAYER FIELD -->
+    <span id="playerList">
+    </span>
     <script type="text/babel">
       var Player = React.createClass({
         render: function() {
           return (
-            <ul>
-              <label>{this.props.player.username}</label>
-              <li>Willpower: {this.props.player.willpower}</li>
-            </ul>
+            <div className="player">
+              <h1>{this.props.player.username}</h1>
+              <h2>{this.props.player.willpower}</h2>
+            </div>
           );
         }
       });
@@ -39,33 +66,29 @@
         },
         render: function() {
           return (
-            <ul>
+            <div className="row players">
               {
                 this.state.players.map(function(player) {
                   return (
-                    <li key={player.id}><Player player={player} /></li>
+                    <section className="3u 12u$(medium)"  data-user-name={player.username}>
+                      <Player player={player}/>
+                    </section>
                   );
                 })
               }
-            </ul>
+           </div>
           );
         }
       });
 
       ReactDOM.render(<PlayerList />, document.getElementById("playerList"));
     </script>
-
-    <div id="playerList"></div>
-    <a id="beginTest" href="javascript:{}">TEST FOR CONTROL!</a></br>
-    <a id="sleep" href="javascript:{}">Add 1 willpower to all</a>
-
-    <div id="playerLink"></div>
-
+    
     <script type="text/babel">
       var PlayerLink = React.createClass({
         getInitialState: function() {
           return({
-            link: "http://" + window.location.host + "/game/" + window.roomId
+            link: "http://" + window.location.host + "/beta/" + window.roomId
           })
         },
         componentDidMount: function() {
@@ -74,8 +97,8 @@
         render: function() {
           return (
             <div>
-              <a href={this.state.link}>{this.state.link}</a>
-              <div style={{padding: "1em"}} id="playerQRCode"></div>
+              <br />
+              <h3><a target="_blank" href={this.state.link}>{this.state.link}</a></h3>
             </div>
           );
         }
@@ -89,5 +112,8 @@
     <script src="/js/common.js" charset="utf-8"></script>
     <script src="/js/gm.js" charset="utf-8"></script>
     <script src="/react/GMPage.js" charset="utf-8"></script>
+    
+    <script src="/lib/skel.min.js"></script>
+    <script src="/lib/main.js"></script>
   </body>
 </html>
