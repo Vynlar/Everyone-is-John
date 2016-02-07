@@ -35,7 +35,7 @@ class Room
           @players.splice index, 1
           @updateGM()
           console.log "LOG: #{player.username} is inactive. Removed them from #{@roomId}"
-      ),1000*10
+      ),1000*60
   setGM: (id, socket) ->
     @GM = {id: id, socket: socket}
   startBidding: () ->
