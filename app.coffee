@@ -224,6 +224,11 @@ io.on "connection", (socket) ->
     player.spend data.amount
     console.log "LOG: #{player.username} spent #{data.amount} willpower"
 
+  socket.on "willpowerOverride", (data) ->
+    player = room.findPlayer data.id
+    if !player? then return
+    player.spend -data.amount
+    console.log "LOG: #{player.username} willpower #{data.amount}"
   socket.on "disconnect", () ->
     if !room? then return
     room.removeUser userId
