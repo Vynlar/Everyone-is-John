@@ -192,50 +192,6 @@ class Username extends Component {
     this._bind("changeUsername");
   }
 
-  componentDidMount() {
-    /*j
-    var url = window.location.href;
-    url = url.split("/");
-    url = url[url.length - 1];
-    url = url.split("#")[0];
-    var roomId = url;
-
-    guid = () => {
-      s4 = () => {
-        return Math.floor((1 + Math.random()) * 0x10000)
-          .toString(16)
-          .substring(1);
-      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-        s4() + '-' + s4() + s4() + s4();
-      }
-    }
-
-    var userId = Cookies.get("userId");
-    if(userId === undefined || userId === null) {
-      userId = guid();
-    }
-
-    Cookies.set("userId", window.userId, {expires: 2592000});
-
-    var component = this;
-    socket.on("connect", () => {
-      var username = Cookies.get("username");
-      if(username === undefined || username === null) {
-        username = chance.name({middle: true, prefix: true});
-        Cookies.set("username", username);
-      }
-      component.setState({"username": username});
-
-      socket.emit("join", {
-        roomId: roomId,
-        type: 1,
-        userId: Cookies.get("userId"),
-        username: Cookies.get("username")
-      });
-    }
-    */
-  }
-
   changeUsername() {
     var newUsername = this.refs.username.value;
     if(newUsername === this.state.username) return;

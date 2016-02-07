@@ -26,8 +26,8 @@
           <h2><span id="gameName"></span></h2>
           <div id="playerLink"></div>
           <ul class="actions">
-            <li><a href="#" class="button special" id="beginTest" href="javascript:{}">Test For Control!</a></li>
-            <li><a href="#" class="button" id="sleep" href="javascript:{}">+1 Willpower (All)</a></li>
+            <li><a href="#" class="button special" id="beginTest">Test For Control!</a></li>
+            <li><a href="#" class="button" id="sleep">+1 Willpower (All)</a></li>
           </ul>
         </section>
         <section class="4u 12u$(medium)">
@@ -41,14 +41,20 @@
     </span>
     <script type="text/babel">
       var Player = React.createClass({
+        updateWillpower: function(direction) {
+          socket.emit("willpowerOverride", {
+            id: this.props.player.id,
+            amount: direction
+          });
+        },
         render: function() {
           return (
             <div className="player" data-user-id={this.props.player.id}>
               <h1>{this.props.player.username}</h1>
               <h2>{this.props.player.willpower}</h2>
               <ul className="actions willpowerControls">
-                <li><a href="#" className="button willpowerControl" href={'javascript:updateWillpower("' + this.props.player.id + '",-1)'}>-1</a></li>
-                <li><a href="#" className="button willpowerControl" href={'javascript:updateWillpower("' + this.props.player.id + '",+1)'}>+1</a></li>
+                <li><a href="#" className="button willpowerControl" onClick={this.updateWillpower.bind(this, -1)}>-1</a></li>
+                <li><a href="#" className="button willpowerControl" onClick={this.updateWillpower.bind(this, +1)}>+1</a></li>
               </ul>
             </div>
           );

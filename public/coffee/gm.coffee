@@ -29,9 +29,6 @@ document.getElementById("sleep").addEventListener "click", (e) ->
 
 document.getElementById("gameName").innerText = roomId
 
-window.updateWillpower = (id, amount) ->
-  socket.emit "willpowerOverride", { id, amount }
-
 socket.on "stopBidding", (data) ->
   winner = document.querySelector '[data-user-name="' + data.winner + '"]'
   if winner?
