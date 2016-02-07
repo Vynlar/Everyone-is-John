@@ -36,6 +36,8 @@
   position:relative;
   left:50%;
   transform:translateX(-50%);
+  
+  border: 2px solid #E0E0E0;
 }
 
 .player * { margin:0; }
@@ -63,5 +65,9 @@
 
 .won .player { background: #1ACA30; }
 .tie .player { background: #F9C03F; }
+
+.willpowerControls {
+  text-align:center;
+}
 
 #winner { display: none; }
