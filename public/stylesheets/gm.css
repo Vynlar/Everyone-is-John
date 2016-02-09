@@ -1,3 +1,11 @@
+*.unselectable {
+   -moz-user-select: none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
 #banner {
     padding: 3em 0 2em 0;
 }
@@ -29,13 +37,15 @@
   margin-top:20px;
   
   width:75%;
-  height:300px;
+  min-height:300px;
   background:#EFEFEF;
   border-radius:5px;
   
   position:relative;
   left:50%;
   transform:translateX(-50%);
+  
+  padding-bottom:1em;
   
   border: 2px solid #E0E0E0;
 }
@@ -71,3 +81,103 @@
 }
 
 #winner { display: none; }
+
+.obsession, .obsession * {
+  display:inline;
+}
+
+.obsession span:nth-child(2) {
+  font-weight:normal;
+}
+
+.obsessionOptions div i {
+  color:#BBB;
+  cursor: pointer;
+  font-size: 2em;
+}
+
+.obsessionOptions div select {
+  font-size:0.75em;
+}
+
+.obsessionOptions div * {
+  position:relative;
+  left:25%;
+  transform:translateX(-50%);
+}
+
+.obsessionInfo { 
+  border: 1px solid #BBB;
+  border-radius: 5px;
+  padding: 0.5em;
+}
+
+.obsessionInfo.hide { display:none; }
+
+.obsessionComplete div {
+  text-align:center;
+  padding-top: 0.5em !important;
+}
+
+i.approve:hover {
+  color: green;
+}
+
+i.approve.true {
+  color:green;
+}
+
+i.deny:hover {
+  color: red;
+}
+
+.userInfo {
+  margin-top:10px;
+  width:90%;
+  
+  position:relative;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+div.approveDeny {
+  display:inline;
+}
+
+div.approveDeny.hidden { display:none;} 
+
+div.approveDeny span {
+  float: right;
+}
+
+.score {
+  margin-top:10px;
+  text-align:center;
+  font-weight:normal;
+}
+
+.score * {
+  display:inline;
+}
+
+.score h3 span {
+  font-weight:bold;
+}
+
+.score li:hover {
+  cursor: pointer;
+}
+
+.score li.add:hover {
+  color:green;
+}
+
+.score li.minus:hover {
+  color:red;
+}
+
+#gameHeader {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 200% !important;
+}
