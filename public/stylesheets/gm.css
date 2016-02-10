@@ -6,10 +6,6 @@
    user-select: none;
 }
 
-#banner {
-    padding: 3em 0 2em 0;
-}
-
 #banner *:not(.actions) {
   margin:0 !important;
 }
@@ -45,7 +41,7 @@
   left:50%;
   transform:translateX(-50%);
   
-  padding-bottom:1em;
+  padding: 0 0.5em 0.5em 0.5em;
   
   border: 2px solid #E0E0E0;
 }
@@ -180,4 +176,10 @@ div.approveDeny span {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 200% !important;
+}
+
+#playerLink h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 99%;
 }

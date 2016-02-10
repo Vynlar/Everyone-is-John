@@ -88,15 +88,15 @@ table {
 
 #biddingIndicator {
   margin-bottom: .75em;
-  position: absolute;
-  left: -200px;
-  top: 0px;
+  //position: absolute;
+  //left: -200px;
+  //top: 0px;
 }
 
 #biddingIndicator div{
   padding: .5em;
   background: grey;
-  width: 150px;
+  //width: 150px;
   margin: auto;
   margin-bottom: .3em;
   border-radius: 5px;
@@ -121,6 +121,7 @@ table {
   font-size: 1em;
   //padding: .3em;
   background: rgba(255, 255, 255, 0);
+  text-overflow: ellipsis;
 }
 
 #usernameInput:focus {
@@ -134,12 +135,11 @@ table {
 }
 
 #winnerWrapper {
-  position: relative;
-  position: absolute;
-  left: 220px;
-  top: 0;
+  //position: absolute;
+  //left: 220px;
+  //top: 0;
   margin-bottom: .3em;
-  width: 150px;
+  //width: 150px;
   margin: auto;
   top: 0px;
 }
@@ -177,9 +177,19 @@ table {
 
 #slider {
   display: inline-block;
-  
   position:relative;
-  left:55%;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+@media screen and (min-width: 736px) {
+  #biddingIndicator div, #winnerWrapper { width: 150px; }
+}
+
+@media screen and (max-width: 736px) {
+  #slider {
+    width: 75%;
+  }
 }
 
 .relative {
@@ -228,9 +238,19 @@ table tbody tr { border:0; }
     border-bottom:1px solid #BBB;
 }
 
+@media screen and (max-width: 736px) {
+   #playerInfo input[type='text'] {
+     width: 90%;
+   }
+   
+   #usernameInput {
+     width: 90%;
+   }
+}
 #playerInfo div:not(#obsession) {
    margin-top:1.5em;
 }
+
 
 .hidden { display: none !important; }
 

@@ -156,28 +156,34 @@ class WillpowerSlider extends Component {
         />);
     }
     return (
-      <div className="relative">
-        <p className="boxTitle">Willpower</p>
-        <table>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
-        <div id="biddingIndicator">
-          <p className="boxTitle">Currently</p>
-          <div className={this.state.bidding ? "highlighted" : null}>
-            <h1>Bidding</h1>
+      <div className="row 100% uniform">
+        <section className="4u 12u$(small)">
+          <div id="biddingIndicator">
+            <p className="boxTitle">Currently</p>
+            <div className={this.state.bidding ? "highlighted" : null}>
+              <h1>Bidding</h1>
+            </div>
+            <div className={this.state.bidding ? null : "highlighted"}>
+              <h1>Spending</h1>
+            </div>
           </div>
-          <div className={this.state.bidding ? null : "highlighted"}>
-            <h1>Spending</h1>
+        </section>
+        <section className="4u 12u$(small)">
+          <p className="boxTitle">Willpower</p>
+          <table>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+        </section>
+        <section className="4u 12u$(small)">
+          <div style={this.state.winner === "" ? {display: "none"} : null} id="winnerWrapper">
+            <p className="boxTitle">In Control</p>
+            <div  id="winner">
+              <h3>{this.state.winner}</h3>
+            </div>
           </div>
-        </div>
-        <div style={this.state.winner === "" ? {display: "none"} : null} id="winnerWrapper">
-          <p className="boxTitle">In Control</p>
-          <div  id="winner">
-            <h3>{this.state.winner}</h3>
-          </div>
-        </div>
+        </section>
       </div>
     );
   }
