@@ -1,0 +1,117 @@
+extends layout
+ 
+block content
+  header#header
+    h1
+      a(href="/") Everyone Is John
+
+  section#banner
+    h2 The Rules
+    
+  #main.container
+    .row
+      section.12u
+        p
+          strong Everyone Is John&nbsp;
+          | is an RPG with a very simplistic set of rules, allowing for hours of gameplay. There&apos;s really only a few things you need to understand.
+    hr.major
+    .row
+      section(class="4u 12u$(small)")
+        h2 Willpower
+        p 
+          | Willpower is what allows John to do things. Each&nbsp;
+          strong voice&nbsp;
+          | starts the game with
+          strong 10&nbsp;
+          | willpower, which they can spend/bid to take control of John.
+          | Voices may also spend willpower when they have control of John to increase the chance of a successful action.
+          | Willpower fluctuates during the game, so we keep track of it for you.
+      section(class="4u 12u$(small)")
+        h2 Skills
+        p
+         | Each voice has two or three skills. Skills are generally simple such as &quot;strong&quot; or &quot;persuasive&quot;
+         | but they can be as off the wall as you want. You are allowed to give John&nbsp;
+         strong two&nbsp;
+         | skills by default. If you have a third skill, you must start with&nbsp;
+         strong 7 willpower&nbsp;
+         | instead of the usual 10.
+      section(class="4u 12u$(small)")
+        h2 Obsessions
+        p
+          | Obsessions are each&nbsp;
+          strong voice&apos;s&nbsp;
+          | ultimate goal for John. This obsession can be as mundane or insane as your heart desires. As calm as
+          | &quot;buy milk&quot; or as wacky as &quot;throw tourists off the Eiffel Tower.&quot; The game master (GM)
+          | will assign your obsession a point value, of 1, 2, or 3. The harder your obsession is to complete, the more
+          | points you will recieve for completing it.
+    hr.major
+    .row
+      section.12u
+        h2 How To Play
+        p
+          | The game will begin when John wakes up. This could be anywhere. In a nice comfy bed in his New York penthouse suite.
+          | Maybe he wakes up on an airplane. Heck, even North Korea. John wakes up in weird places. In turn, this activates the first&nbsp;
+          strong test for control
+          | .
+      section.12u
+        .row
+          section.12u
+            h2 Turn Structure
+            p
+              | Every turn starts with a&nbsp;
+              strong test for control
+              | , where it decided upon which voice gets to control John by bidding willpower against each other. This voice now has total dominion over John and can bend
+              | and shape his life to their will. If John wants to attack his neighbor with a squirrel, he shall. This being said however,&nbsp;
+              | John can be a bit of a numbskull. If the voice in charge wishes John to do anything where any reasonable person might fail, a&nbsp;
+              strong roll for success&nbsp;
+              | occurs. If John succeeds, the turn continues. If he does not, a&nbsp;
+              strong test for control&nbsp;
+              | is initiated. 
+            p
+              | One voice cannot have control of John forever. If John is doing something where he will be idle for more than&nbsp;
+              strong 10 minutes&nbsp;
+              | , the game master (GM) rolls a die. If a&nbsp;
+              strong 4&nbsp;
+              | or higher is rolled, John falls asleep and a&nbsp;
+              strong test for control&nbsp;
+              | occurs. When John falls asleep, all voices&nbsp;
+              strong gain one willpower
+              | .
+            hr.major
+          section.12u.text-center
+            header
+              p.big What is a...
+          section(class="6u 12u$(small)")
+            h2 Test For Control
+            p
+              | A test for control occurs whenever John falls asleep, completes (or fails to complete) an obsession, or hurts himself.
+              | During a test for control, the game will go into a&nbsp;
+              strong bidding phase
+              | . It is in this phase that you can bid willpower points in order to gain control of John. Although bidding more willpower points
+              | increases your chance of having control, keep in mind that if you have&nbsp;
+              strong 0 willpower&nbsp;
+              | you can no longer take control of John. As well, you are&nbsp;
+              strong not required&nbsp;
+              | to bid anything. Zero is a completely valid bid. If there is a tie, it will be handled with wizardry.
+          section(class="6u 12u$(small)")
+            h2 Roll for Success
+            p
+              | John is an idiot. Therefore, whenever he wants to do something that any reasonable person could possible fails
+              | at doing, a&nbsp;
+              strong roll for success&nbsp;
+              | occurs. Whichever voice had control of John must roll a single d6 (that is a standard 6 sided die, for those of you
+              | who play exclusively Monopoly&reg;). If the voice has a&nbsp;
+              strong skill&nbsp;
+              | that satisfies the action, a&nbsp;
+              strong 3&nbsp;
+              | or higher must be rolled. In all other cases, the voice must roll a 6.&nbsp;
+              em However
+              | , the voice may spend any number of willpower to add +1 per point to the roll, increasing the chance of success.&nbsp;
+              strong Failing&nbsp;
+              | the roll for success immediately ends the voices turn, and initiates a&nbsp;
+              strong test for control
+              | .
+          
+          
+          
+     

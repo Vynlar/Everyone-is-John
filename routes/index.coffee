@@ -32,6 +32,9 @@ router.get '/gm/:id', (req, res) ->
 router.get '/game', (req, res) ->
   res.redirect 301, '/'
 
+router.get '/rules', (req, res) ->
+  res.render 'rules', title: 'Everyone Is John | Rules'
+  
 router.get '/', (req, res, next) ->
   res.render 'index', title: 'Everyone Is John'
 

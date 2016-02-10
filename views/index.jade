@@ -1,21 +1,53 @@
 extends layout
 
+block extraheader
+  //link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+
 block content
-	section#banner.header
-		#title
-			h2 Everyone is John
-		br
-		input(type='text',placeholder="XXXX-XXXX")#gameId
-		
-	#main.container
-		.row#buttons
-			div(class="3u 0u$(small)") &nbsp;
-			div(class="3u 12u$(small)")
-				a(href="#").button.special.big#newGame Create Game
-			div(class="3u 12u$(small)")
-				a(href="#").button.special.big#joinGame Join Game
-			div(class="3u 0u$(small)") &nbsp;
-			
-	script(src='/js/index.js')
-			
-			
+  header#header
+    h1
+      a(href="/") Everyone Is John
+  
+  section#banner
+    h2 Everyone Is John
+    p A game about being completely insane.
+    ul.actions
+      li
+        a(href="/game/create").button.special New Game
+      li 
+        a(href="#").button Join Game
+  
+  #main.container
+    .row
+      section(class="6u 12u$(medium)")
+        h2 What Is this?
+        p
+          strong Everyone Is John&nbsp;
+          | is a freeform RPG (see&nbsp;
+          a(href="#summary") summary
+          | ). This website, is a client to facilitate easy gameplay!&nbsp;
+          | Simply start a game with your friends, if you have any and we&apos;ll keep track of points and all that stuff.
+      section(class="3u 6u(medium) 12u$(small)")
+        h2 How Do I play?
+        p
+          | Read the&nbsp;
+          a(href="/rules") rules
+          | , and click the button up there (HINT: It&apos;s blue).
+      section(class="3u$ 6u$(medium) 12u$(small)")
+        p 
+          | This website was a combination effort between&nbsp;
+          a(href="http://adrianaleixandre.com") Adrian Aleixandre
+          | &nbsp;and&nbsp;
+          a(href="http://kolya.co") Kolya Venturi
+          | .
+        p
+          | The original game was created by&nbsp;
+          a(href="http://web.archive.org/web/20110701010311/http://wso.williams.edu/~msulliva/campaigns/john/") Michael B. Sullivan
+          | .
+    hr.major
+    .row
+      section(class="6u 12u$(small)")#summary
+        h2 Summary (How does this work?)
+        include ../includes/summary.jade
+  
+      
