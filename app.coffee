@@ -178,6 +178,10 @@ class Player
       @lockedSkills[id] = false
     else
       @lockedSkills[id] = true
+    i = 0
+    for locked in @lockedSkills
+      if locked then i++
+    if i == 3 then @spend(3)
     @update()
     @room.updateGM()
   setObsessionWorth: (worth) ->
