@@ -61,8 +61,8 @@ class Player extends Component {
         <h1>{this.props.player.username}</h1>
         <h2>{this.props.player.willpower}</h2>
         <ul className="actions willpowerControls">
-          <li><a href="#" className="button willpowerControl" onClick={this.updateWillpower.bind(this, -1)}>-1</a></li>
-          <li><a href="#" className="button willpowerControl" onClick={this.updateWillpower.bind(this, +1)}>+1</a></li>
+          <li><a href="javascript:{}" className="button willpowerControl" onClick={this.updateWillpower.bind(this, -1)}>-1</a></li>
+          <li><a href="javascript:{}" className="button willpowerControl" onClick={this.updateWillpower.bind(this, +1)}>+1</a></li>
         </ul>
         <div className="row uniform">
           <div className="12u score">
@@ -94,7 +94,7 @@ class Player extends Component {
             </div>
             <div className="row uniform obsessionComplete">
               <div className="12u">
-                <a href="#" onClick={this.completeObsession.bind()} className="button special">Complete Obsession</a>
+                <a href="javascript:{}" onClick={this.completeObsession.bind()} className="button special">Complete Obsession</a>
               </div>
             </div>
           </div>

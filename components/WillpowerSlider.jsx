@@ -99,6 +99,7 @@ class WillpowerRow extends Component{
 }
 
 class WillpowerSlider extends Component {
+  
   constructor() {
     super();
     this.state = {
@@ -109,6 +110,7 @@ class WillpowerSlider extends Component {
       winner: "Nothing"
     }
     this._bind("lock", "setHover");
+    this.alertTone = new AudioPlayer("/sfx/Alert");
   }
 
   setHover(index) {
@@ -129,6 +131,7 @@ class WillpowerSlider extends Component {
       slider.setState({willpower: data.willpower});
     });
     socket.on("startBidding", () => {
+      this.alertTone.play();
       slider.setState({"bidding": true, "winner": ""});
     });
     socket.on("stopBidding", (data) => {
