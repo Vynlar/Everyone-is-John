@@ -273,6 +273,7 @@ io.on "connection", (socket) ->
 
   socket.on "startBidding", (data) ->
     if player? then return
+    room.winner = ""
     room.startBidding()
   
   socket.on "changeUsername", (data) ->

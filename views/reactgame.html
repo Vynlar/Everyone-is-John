@@ -11,7 +11,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.js"></script> -->
     <!-- http://kolyaventuri.com/secret.txt -->
   </head>
 
@@ -41,97 +41,9 @@
       </div>
     </div>
     <script type="text/babel">
-      var UserData = React.createClass({
-        
-        onChange: function(event) {
-          var data = {};
-          data[event.target.getAttribute('data-id')] = event.target.value;
-          this.props.updateState(data);
-        },
-        onSkillChange: function(event) {
-          this.props.updateSkill(event.target.getAttribute('data-skillid'), event.target.value);
-        },
-        setSkill: function(event) {
-          socket.emit('setSkill', {
-            skill: event.target.value,
-            id: Number(event.target.getAttribute('data-skillid'))
-          });
-        },
-        setObsession: function(event) {
-          var obsession = event.target.value;
-          socket.emit('setObsession', obsession);
-        },
-        render: function() {
-          return (
-            <div id="playerInfo">
-              <h2 id="points">You have <span className="bolder">{this.props.player.totalScore}</span> points</h2>
-              <div id="obsession">
-                <h2>Obsession {
-                  this.props.player.obsessionWorth > 0 ? "(" + this.props.player.obsessionWorth + " Points)" : ""
-                }</h2>
-                <input className={!this.props.player.obsessionApproved ? "" : "hidden"} type="text" placeholder="You must have an obsession to play!" data-id="obsession" onBlur={this.setObsession} value={this.props.player.obsession} onChange={this.onChange} />
-                <h3 className={this.props.player.obsessionApproved ? "" : "hidden"}>{this.props.player.obsession}</h3>
-              </div>
-              <div id="skills">
-                <h2>Skills</h2>
-                <ol>
-                  {
-                    this.props.player.skills.map(function(skill, index) {
-                      return (
-                         <li>
-                            <input className={!this.props.player.lockedSkills[index] ? "" : "hidden"} type="text" placeholder={"Skill " + (index + 1)} data-skillid={index} onBlur={this.setSkill} value={skill} onChange={this.onSkillChange} />
-                            <h3 className={this.props.player.lockedSkills[index] ? "" : "hidden"}>{this.props.player.skills[index]}</h3>
-                        </li>
-                      );
-                    }, this)
-                    
-                  }
-                 
-                </ol>
-              </div>
-            </div>
-          );
-        }
-      });
       
-      var Player = React.createClass({
-        getInitialState: function() {
-          return {
-            player: {
-              skills: []
-            }
-          }
-        },
-        componentDidMount: function() {
-          var parent = this;
-          socket.on("yourPlayer.update", function(data) {
-            console.log(data);
-            parent.setState({player: data});
-          });
-        },
-        updateState: function(data) {
-          var temp = Object.assign({}, this.state.player);
-          var keys = Object.keys(data);
-          for(var i = 0; i < keys.length; i++) {
-            temp[keys[i]] = data[keys[i]];
-          }
-          
-          this.setState({player: temp});
-        },
-        updateSkill: function(id, skill) {
-          var temp = Object.assign({}, this.state.player);
-          temp.skills[id] = skill;
-          this.setState({player: temp});
-        },
-        render: function() {
-          return (
-            <div className="userInfo">
-              <UserData player={this.state.player} updateState={this.updateState} updateSkill={this.updateSkill} />
-            </div>
-          );
-        }
-      });
-      ReactDOM.render(<Player />, document.getElementById("player"));
+      
+      
     </script>
 
     </div>
@@ -147,5 +59,7 @@
     <script src="/js/player.js"></script>
     <!-- Components -->
     <script type="text/javascript" src="/react/WillpowerSlider.js"></script>
+    <script type="text/javascript" src="/react/UserData.js"></script>
+    <script type="text/javascript" src="/react/Player.js"></script>
   </body>
 </html>

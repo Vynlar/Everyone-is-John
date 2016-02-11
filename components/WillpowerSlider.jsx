@@ -129,7 +129,7 @@ class WillpowerSlider extends Component {
       slider.setState({willpower: data.willpower});
     });
     socket.on("startBidding", () => {
-      slider.setState({"bidding": true});
+      slider.setState({"bidding": true, "winner": ""});
     });
     socket.on("stopBidding", (data) => {
       slider.setState({"bidding": false,
@@ -177,7 +177,7 @@ class WillpowerSlider extends Component {
           </table>
         </section>
         <section className="4u 12u$(small)">
-          <div style={this.state.winner === "" ? {display: "none"} : null} id="winnerWrapper">
+          <div style={this.state.bidding === "" ? {visiblity: "hidden"} : null} id="winnerWrapper">
             <p className="boxTitle">In Control</p>
             <div  id="winner">
               <h3>{this.state.winner}</h3>
