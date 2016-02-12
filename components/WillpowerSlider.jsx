@@ -3,6 +3,7 @@ class Component extends React.Component {
     methods.forEach((method) => this[method] = this[method].bind(this));
   }
 }
+
 class WillpowerRow extends Component{
   constructor() {
     super();
@@ -127,11 +128,18 @@ class WillpowerSlider extends Component {
 
   componentDidMount() {
     var slider = this;
+    navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+    
     socket.on("willpower", function(data) {
       slider.setState({willpower: data.willpower});
     });
     socket.on("startBidding", () => {
-      this.alertTone.play();
+      if(Cookies.get("sound") == "true") {
+        this.alertTone.play();
+      }
+      if(typeof navigator.vibrate === "function" && (Cookies.get("vibration") == "true")) {
+        navigator.vibrate([200, 100, 200]);
+      }
       slider.setState({"bidding": true, "winner": ""});
     });
     socket.on("stopBidding", (data) => {

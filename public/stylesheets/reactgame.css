@@ -185,8 +185,8 @@ table {
 @media screen and (min-width: 736px) {
   #biddingIndicator div, #winnerWrapper { width: 150px; }
   
-  #slider table { 
-    //width: 200%; 
+  .hide-larger-than-small { 
+    display: none !important;
   }
 }
 
@@ -243,13 +243,21 @@ table tbody tr { border:0; }
 }
 
 @media screen and (max-width: 736px) {
-   #playerInfo input[type='text'] {
-     width: 90%;
-   }
-   
-   #usernameInput {
-     width: 90%;
-   }
+    #playerInfo input[type='text'] {
+      width: 90%;
+    }
+
+    #usernameInput {
+      width: 90%;
+    }
+    
+    #header a:first-child {
+      padding-right: 0.5em;
+    }
+    
+    #header a {
+      transform: translateX(-30%);
+    }
 }
 #playerInfo div:not(#obsession) {
    margin-top:1.5em;
@@ -279,4 +287,8 @@ table tbody tr { border:0; }
 
 #points span.bolder {
   color: #444 !important;
+}
+
+#header a {
+  font-size: 1.5em;
 }

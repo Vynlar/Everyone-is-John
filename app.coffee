@@ -192,7 +192,7 @@ class Player
     @room.updateGM()
     @update()
   givePoint: (amount) ->
-    if (@totalScore + amount) <= 0 then return
+    if (@totalScore + amount) < 0 then return
     @totalScore += amount
     @room.updateGM()
     @update()
