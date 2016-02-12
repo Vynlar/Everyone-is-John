@@ -6,6 +6,9 @@ PC = 1
 currentWinner = ""
 className = "won"
 
+socket.on "invalidGM", () ->
+  window.location = "/";
+
 socket.on "connect", () ->
   console.log "LOG: connected"
 

@@ -15,8 +15,7 @@ block content
       li
         a(href="/game/create").button.special New Game
       li 
-        a(href="#").button Join Game
-  
+        a(href="javascript:{}" id="join").button Join Game
   #main.container
     .row
       section(class="6u 12u$(medium)")
@@ -49,5 +48,4 @@ block content
       section(class="6u 12u$(small)")#summary
         h2 Summary (How does this work?)
         include ../includes/summary.jade
-  
       

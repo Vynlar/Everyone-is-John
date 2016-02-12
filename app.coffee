@@ -41,6 +41,9 @@ class Room
       ),1000*60
   setGM: (id, socket) ->
     @GM = {id: id, socket: socket}
+  isGM: (userID) ->
+    if !@GM? then return true
+    @GM.id == userID
   startBidding: () ->
     @bidding = true
     @updateGM()
@@ -253,6 +256,9 @@ io.on "connection", (socket) ->
       player.socket.emit "winner", room.winner
       player.socket.emit "yourPlayer.update", player.getInformation()
     else if type == GM
+      if !room.isGM userId
+        socket.emit "invalidGM"
+        return
       room.setGM userId, socket
       typeName = "GM"
       socket.emit "stopBidding", {winner: room.winner}
