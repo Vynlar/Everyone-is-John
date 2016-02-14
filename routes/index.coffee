@@ -4,6 +4,7 @@ path = require "path"
 Chance = require "../public/lib/chance"
 chance = new Chance()
 animals = require "../private/animals.js"
+findRoomByShortID = null
 
 ### GET home page. ###
 
@@ -34,8 +35,15 @@ router.get '/game', (req, res) ->
 
 router.get '/rules', (req, res) ->
   res.render 'rules', title: 'Everyone Is John | Rules'
-  
-router.get '/', (req, res, next) ->
+
+router.get '/join/:id', (req, res) ->
+  roomId = findRoomByShortID req.params.id
+  if !roomId or !roomId? then res.redirect 302, '/' 
+  res.redirect 302, '/game/' + roomId
+
+router.get '', (req, res, next) ->
   res.render 'index', title: 'Everyone Is John'
 
-module.exports = router
+module.exports = (func) ->
+  findRoomByShortID = func
+  router

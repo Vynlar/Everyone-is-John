@@ -4,6 +4,8 @@ http = require("http").Server app
 io = require("socket.io")(http)
 _ = require "underscore"
 args = require("yargs").argv
+Chance = require './public/lib/chance'
+chance = new Chance()
 
 ###
 ROOMS
@@ -17,6 +19,7 @@ class Room
   constructor: (roomId) ->
     @players = []
     @id = roomId
+    @shortId = chance.string {length: 5, pool: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'}
     @GM = null
     @bidding = true
     @winner = ""
@@ -82,6 +85,7 @@ class Room
       @GM.socket.emit "message", @messages
   setGM: (id, socket) ->
     @GM = {id: id, socket: socket}
+    @GM.socket.emit "roomShortId", { id: @shortId }
   isGM: (userID) ->
     if !@GM? then return true
     @GM.id == userID
@@ -162,6 +166,12 @@ class Room
   @create: (roomId) ->
     return new Room roomId
 
+findRoomByShortID = (shortId) ->
+  for room in rooms
+    if room.shortId == shortId
+      return room.id
+  return null
+    
 findRoom = (roomId) ->
   for room in rooms
     if room.id == roomId
@@ -401,6 +411,10 @@ io.on "connection", (socket) ->
     selectedPlayer.givePoint data.amount
     console.log "LOG: Added #{data.amount} points to #{selectedPlayer.username}"
 
+  socket.on "getRoomId", (data) ->
+    roomId = findRoomByShortID data.id
+    socket.emit "roomID", { id: roomID || false }
+    
   socket.on "disconnect", () ->
     if !room? then return
     room.removeUser userId
@@ -423,7 +437,7 @@ app.set 'view engine', 'jade'
 ROUTES
 ###
 
-routes = require './routes/index'
+routes = require('./routes/index')(findRoomByShortID)
 app.use '/', routes
 
 ###

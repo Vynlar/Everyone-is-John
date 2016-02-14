@@ -16,6 +16,17 @@ block content
         a(href="/game/create").button.special New Game
       li 
         a(href="javascript:{}" id="join").button Join Game
+    .joinGame.row.hidden#joinGame
+      section(class='4u 0u$(small)') &nbsp;
+      section(class='4u 12u$(small)')
+        ul.actions
+          li 
+            input(type='text')#code
+          li 
+            a(href="javascript:{}" id="joinFinal").button.special Join
+      section(class='4u 0u$(small)') &nbsp;
+      
+      
   #main.container
     .row
       section(class="6u 12u$(medium)")
@@ -48,4 +59,5 @@ block content
       section(class="6u 12u$(small)")#summary
         h2 Summary (How does this work?)
         include ../includes/summary.jade
+  script(src='/js/joinGame.js')
       

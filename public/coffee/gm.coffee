@@ -10,6 +10,9 @@ className = "won"
 socket.on "invalidGM", () ->
   window.location = "/";
 
+socket.on "roomShortId", (data) ->
+  document.getElementById("gameShortCode").innerText = "Code: #{data.id}"
+  
 socket.on "connect", () ->
   console.log "LOG: connected"
 

@@ -183,3 +183,9 @@ div.approveDeny span {
   text-overflow: ellipsis;
   width: 99%;
 }
+
+#gameShortCode {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+}
