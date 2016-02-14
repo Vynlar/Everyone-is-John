@@ -300,7 +300,12 @@ table tbody tr { border:0; }
 #chat {
   position:fixed;
   bottom:0;
-  right:1.5em;
+  right:0;
+}
+
+#chat .window {
+  margin-right: 1.5em;
+  display:inline-block;
 }
 
 #chat .window .topBar {
@@ -324,6 +329,8 @@ table tbody tr { border:0; }
   border: 1px solid #CCC;
   border-bottom:none;
   border-top:none;
+  
+  max-width:16em;
 }
 
 #chat .window .chatarea .textArea {
@@ -332,7 +339,7 @@ table tbody tr { border:0; }
   left:0;
   
   border-top: 1px solid #BBB;
-  width:100%;
+  width:16em;
   height:2em;
 }
 
@@ -347,3 +354,28 @@ table tbody tr { border:0; }
 }
 
 #chat .window .chatarea.hidden { display:none; }
+
+#chat .window .chatarea .messages {
+  padding-bottom: 2em;
+  height: 100%; 
+}
+
+#chat .window .chatarea .messages ul {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+#chat .window .chatarea .messages ul li {
+  padding: 0.4em 0.5em 0.4em 0.5em;
+  border-bottom: 1px solid #EEE;
+}
+
+#chat .window .chatarea .messages ul li hr {
+  margin: 0;
+  width: 90%;
+}
+
+#chat .window .chatarea .messages ul li[data-isuser='true'] {
+  text-align:right;
+  background:#AFE1FF;
+}

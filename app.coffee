@@ -41,21 +41,24 @@ class Room
           console.log "LOG: #{player.username} is inactive. Removed them from #{@id}"
       ),1000*60
   sendMessage: (data) ->
-    [message, senderId, recipientId] = data
+    {message, senderId, recipientId} = data
     senderType = "GM"
     recipientType = "GM"
     senderUsername = "GM"
     @players.forEach (player)=>
       if player.id == senderId
         senderUsername = player.username
-        senderType = "player"
+        senderType = "PC"
       if player.id == recipientId
-        recipientType = "player"
+        recipientType = "PC"
+
+    console.log "#{senderType}(#{senderId}) sent message '#{message}' to #{recipientType}(#{recipientId})"
     messageObject =
       sender: senderUsername
       message: message
       senderId: senderId
       senderType: senderType
+      recipientId: recipientId || "GM"
       sent: new Date().toISOString()
       id: @messageIndex
     @messageIndex++
@@ -67,7 +70,7 @@ class Room
     if senderType == "GM"
       sendToPlayer()
     else
-      if recipientType == "player"
+      if recipientType == "PC"
         sendToPlayer()
       else
         @GM.socket.emit "message", [messageObject]
