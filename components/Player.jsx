@@ -51,3 +51,4 @@ class Player extends Component {
 }
 
 ReactDOM.render(<Player />, document.getElementById("player"));
+ReactDOM.render(<Chat />, document.getElementById("chat"));

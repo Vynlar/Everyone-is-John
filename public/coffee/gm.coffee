@@ -1,4 +1,5 @@
 window.socket = io()
+window.isGM = true
 
 GM = 0
 PC = 1

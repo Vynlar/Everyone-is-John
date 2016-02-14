@@ -9,10 +9,9 @@ class Chat extends Component {
   constructor() {
     super();
     this.state = {
-      visible: true,
-      messages: {
-        "GM": []
-      }
+      visible: { GM: true },
+      closed: { GM: false },
+      messages: { GM: [] }
     };
     
     this._bind("toggleVisibility", "onMessage", "messageRecieved");
@@ -20,16 +19,24 @@ class Chat extends Component {
   }
   
   messageRecieved(data) {
+    console.log(data);
     let temp_messages = this.state.messages;
+    let visibility = this.state.visible;
+    let closed = this.state.closed;
     let yourId = Cookies.get("userId");
     data.map(function(message) {
-      let messageId = message.senderId == yourId ? message.recipientId : message.senderId;
-      if (message.senderType == "GM") messageId = "GM";
-      console.log(yourId);
+      let messageId = message.senderId == yourId ? (message.recipientId == null ?  "GM" : message.recipientId) : message.senderId;
+      if (message.senderType == "GM" && (typeof isGM === 'undefined')) messageId = "GM";
+      console.log(yourId, messageId, message.senderId);
+      if(temp_messages[messageId] == null) {
+        temp_messages[messageId] = [];
+        visibility[messageId] = true;
+        closed[messageId] = false;
+      }
       temp_messages[messageId].push(message);
     });
     console.log(temp_messages);
-    this.setState({"messages": temp_messages});
+    this.setState({"messages": temp_messages, "visible": visibility, "closed": closed});
   }
   
   onMessage(event) {
@@ -48,44 +55,60 @@ class Chat extends Component {
         id: this.state.messages.length
       };
       
-      temp_messages[uid].push(messageObject);
+      temp_messages[UID].push(messageObject);
       this.setState({"messages": temp_messages});
-      
-      socket.emit("sendMessage", { message: message, senderId: Cookies.get("userId") });
+      console.log(temp_messages);
+      socket.emit("sendMessage", { message: message, senderId: Cookies.get("userId"), recipientId: UID != "GM" ? UID : null});
     }
   }
   
-  toggleVisibility() {
-    this.setState({"visible": !this.state.visible});
+  toggleVisibility(event) {
+    let UID = event.currentTarget.parentNode.getAttribute("data-user-id");
+    let visibility = this.state.visible;
+    visibility[UID] = !visibility[UID];
+    this.setState({"visible": visibility});
+  }
+  
+  toggleClosed(event) {
+    let UID = event.currentTarget.parentNode.parentNode.getAttribute("data-user-id");
+    let closed = this.state.closed;
+    closed[UID] = !closed[UID];
+    this.setState({"closed": closed});
   }
   
   render() {
-    Object.keys(this.state.messages).map((key, id) => {
-      return (
-        <div className="window" data-user-id={"x"}>
-          <div className="topBar" onClick={this.toggleVisibility}>
-            <h1><i className="fa fa-comments"></i>&nbsp;Game Master</h1>
-          </div>
-          <div className={"chatarea " + (this.state.visible ? "" : "hidden")}>
-            <div className="messages">
-              <ul>
-              {
-                this.state.messages[key].map((msg, i) => {
-                  return (
-                    <li data-message-id={msg.id} data-ts={msg.sent} data-isuser={msg.senderId == Cookies.get('userId') ? "true" : ""}>{msg.message}</li>
-                  );
-                })
-              }
-              </ul>
+    return(
+      <div>
+      {
+        Object.keys(this.state.messages).map((key, id) => {
+          var GM = typeof isGM !== "undefined";
+          if(GM && key == "GM") return false;
+          return (
+            <div className={this.state.closed[key] ? "window hidden" : "window"} data-user-id={key} >
+              <div className="topBar" onClick={this.toggleVisibility}>
+                <h1><i className="fa fa-comments"></i>&nbsp;{this.state.messages[key] != null && key != "GM" ? this.state.messages[key][0].sender : "Game Master"}</h1>
+              </div>
+              <div className={"chatarea " + (this.state.visible[key] ? "" : "hidden")}>
+                <div className="messages">
+                  <ul>
+                  {
+                    this.state.messages[key].map((msg, i) => {
+                      return (
+                        <li data-message-id={msg.id} data-ts={msg.sent} data-isuser={msg.senderId == Cookies.get('userId') ? "true" : ""}>{msg.message}</li>
+                      );
+                    })
+                  }
+                  </ul>
+                </div>
+                <div className="textArea">
+                  <input type="text" placeholder="Type a message..." onKeyPress={this.onMessage} />
+                </div>
+              </div>
             </div>
-            <div className="textArea">
-              <input type="text" placeholder="Type a message..." onKeyPress={this.onMessage} />
-            </div>
-          </div>
-        </div>
-      )
-    }, this);
+          )
+        }, this)
+      }
+      </div>
+    )
   }
 }
-
-ReactDOM.render(<Chat />, document.getElementById("chat"));

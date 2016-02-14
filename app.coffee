@@ -51,7 +51,7 @@ class Room
         senderType = "PC"
       if player.id == recipientId
         recipientType = "PC"
-
+    
     console.log "#{senderType}(#{senderId}) sent message '#{message}' to #{recipientType}(#{recipientId})"
     messageObject =
       sender: senderUsername
@@ -61,8 +61,10 @@ class Room
       recipientId: recipientId || "GM"
       sent: new Date().toISOString()
       id: @messageIndex
+      
     @messageIndex++
     @messages.push messageObject
+    
     sendToPlayer = ()=>
     if senderType == "GM"
       @players.some (player) =>
@@ -75,7 +77,8 @@ class Room
       else
         @GM.socket.emit "message", [messageObject]
   syncGMMessages: () =>
-    if(@GM?)
+    if @GM?
+      console.log "syncGMMessages()"
       @GM.socket.emit "message", @messages
   setGM: (id, socket) ->
     @GM = {id: id, socket: socket}
