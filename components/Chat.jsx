@@ -76,6 +76,23 @@ class Chat extends Component {
     this.setState({"closed": closed});
   }
   
+  openChat(UID, name) {
+    let temp_messages = this.state.messages;
+    let closed = this.state.closed;
+    let visibility = this.state.visible;
+    if(temp_messages[UID] == null) {
+      temp_messages[UID] = [];
+      visibility[UID] = true;
+      closed[UID] = false;
+      temp_messages[UID].push({sender: name, id: -1, sent: 0, senderId: UID, message: "", init: true});
+      this.setState({"messages": temp_messages, "visible": visibility, "closed": closed});
+    } else {
+      visibility[UID] = true;
+      closed[UID] = false;
+      this.setState({"visible": visibility, "closed": closed});
+    }
+  }
+  
   render() {
     return(
       <div>
@@ -94,7 +111,7 @@ class Chat extends Component {
                   {
                     this.state.messages[key].map((msg, i) => {
                       return (
-                        <li data-message-id={msg.id} data-ts={msg.sent} data-isuser={msg.senderId == Cookies.get('userId') ? "true" : ""}>{msg.message}</li>
+                        <li data-message-id={msg.id} data-ts={msg.sent} data-isuser={msg.senderId == Cookies.get('userId') ? "true" : ""} className={msg.init ? "hidden" : null}>{msg.message}</li>
                       );
                     })
                   }

@@ -8,7 +8,7 @@ class Player extends Component {
 
   constructor() {
     super();
-    this._bind("updateWillpower", "setObsessionState", "setSkillState", "setObsessionWorth", "completeObsession", "addPoint");
+    this._bind("updateWillpower", "setObsessionState", "setSkillState", "setObsessionWorth", "completeObsession", "addPoint", "openChat");
   }
   
   updateWillpower(direction) {
@@ -55,6 +55,10 @@ class Player extends Component {
     });
   }
   
+  openChat() {
+    Chats.openChat(this.props.player.id, this.props.player.username);
+  }
+  
   render() {
     return (
       <div className="player unselectable" data-user-id={this.props.player.id}>
@@ -63,6 +67,7 @@ class Player extends Component {
         <ul className="actions willpowerControls">
           <li><a href="javascript:{}" className="button willpowerControl" onClick={this.updateWillpower.bind(this, -1)}>-1</a></li>
           <li><a href="javascript:{}" className="button willpowerControl" onClick={this.updateWillpower.bind(this, +1)}>+1</a></li>
+          <li><a href="javascript:{}" className="button willpowerControl" onClick={this.openChat}>Chat</a></li>
         </ul>
         <div className="row uniform">
           <div className="12u score">

@@ -27,4 +27,4 @@ class Winner extends Component {
 }
 
 ReactDOM.render(<Winner />, document.getElementById("winner"));
-ReactDOM.render(<Chat GM={true}/>, document.getElementById("chat"));
+var Chats = ReactDOM.render(<Chat GM={true}/>, document.getElementById("chat"));
