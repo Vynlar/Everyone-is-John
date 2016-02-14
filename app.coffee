@@ -20,6 +20,8 @@ class Room
     @GM = null
     @bidding = true
     @winner = ""
+    @messageIndex = 0
+    @messages = []
   addPlayer: (player) ->
     @players.push player
   removeUser: (id) ->
@@ -32,13 +34,46 @@ class Room
         index = i
     if index != -1
       @players[index].left = true
-
       setTimeout (=>
         if player.left == true
           @players.splice index, 1
           @updateGM()
           console.log "LOG: #{player.username} is inactive. Removed them from #{@id}"
       ),1000*60
+  sendMessage: (data) ->
+    [message, senderId, recipientId] = data
+    senderType = "GM"
+    recipientType = "GM"
+    senderUsername = "GM"
+    @players.forEach (player)=>
+      if player.id == senderId
+        senderUsername = player.username
+        senderType = "player"
+      if player.id == recipientId
+        recipientType = "player"
+    messageObject =
+      sender: senderUsername
+      message: message
+      senderId: senderId
+      senderType: senderType
+      sent: new Date().toISOString()
+      id: @messageIndex
+    @messageIndex++
+    @messages.push messageObject
+    sendToPlayer = ()=>
+    if senderType == "GM"
+      @players.some (player) =>
+        player.socket.emit "message", [messageObject]
+    if senderType == "GM"
+      sendToPlayer()
+    else
+      if recipientType == "player"
+        sendToPlayer()
+      else
+        @GM.socket.emit "message", [messageObject]
+  syncGMMessages: () =>
+    if(@GM?)
+      @GM.socket.emit "message", @messages
   setGM: (id, socket) ->
     @GM = {id: id, socket: socket}
   isGM: (userID) ->
@@ -61,7 +96,6 @@ class Room
   processBids: () ->
     for player in @players
       if player.bid == null then return
-
     highest = @players[0]
     ties = []
     for player in @players
@@ -147,10 +181,8 @@ class Player
     @skills = new Array 3
     @lockedSkills = [!1,!1,!1]
     @totalScore = 0
-  
   update: () ->
     @socket.emit "yourPlayer.update", @getInformation()
-  
   makeBid: (bid) ->
     @bid = bid
   spend: (value) ->
@@ -158,6 +190,12 @@ class Player
     @willpower -= value
     @socket.emit "willpower", {willpower: @willpower}
     @room.updateGM()
+  syncMessages: () =>
+    messages = @room.messages.filter (message)=>
+      if message.senderId == @id || message.recipientId == @id
+        return true
+      return false
+    @socket.emit "message", messages
   changeUsername: (username) ->
     if username == @username then return false
     @username = username
@@ -255,6 +293,7 @@ io.on "connection", (socket) ->
         player.setObsession data
       player.socket.emit "winner", room.winner
       player.socket.emit "yourPlayer.update", player.getInformation()
+      player.syncMessages()
     else if type == GM
       if !room.isGM userId
         socket.emit "invalidGM"
@@ -262,6 +301,7 @@ io.on "connection", (socket) ->
       room.setGM userId, socket
       typeName = "GM"
       socket.emit "stopBidding", {winner: room.winner}
+      room.syncGMMessages()
 
     #update GM on recent player changes
     room.updateGM()
@@ -281,7 +321,7 @@ io.on "connection", (socket) ->
     if player? then return
     room.winner = ""
     room.startBidding()
-  
+
   socket.on "changeUsername", (data) ->
     if !player? then return
     oldUsername = player.username
@@ -292,6 +332,8 @@ io.on "connection", (socket) ->
       console.log "ERROR: #{player.username} was already named that!"
     room.updateGM()
 
+  socket.on "sendMessage", (data) ->
+    room.sendMessage data
 
   socket.on "sleep", (data) ->
     room.sleep()
@@ -306,53 +348,53 @@ io.on "connection", (socket) ->
     data = sanitizeString data
     player.setObsession data
     console.log "LOG: #{player.username} set obsession to #{data}"
-  
+
   socket.on "setSkill", (data) ->
     if !player? then return
     data.skill = sanitizeString(data.skill)
     player.setSkill data.skill, data.id
     console.log "LOG: #{player.username} set skill #{data.id} to #{data.skill}"
-    
+
   socket.on "willpowerOverride", (data) ->
     if player? then return
     selectedPlayer = room.findPlayer data.id
     if !selectedPlayer? then return
     selectedPlayer.spend -data.amount
     console.log "LOG: #{selectedPlayer.username} willpower #{data.amount}"
-    
+
   socket.on "setObsessionState", (data) ->
     if player? then return
     selectedPlayer = room.findPlayer data.id
     selectedPlayer.setObsessionApproved data.state
     approved = if data.state then "" else "not"
     console.log "LOG: Obsession for #{selectedPlayer.username} #{approved} approved"
-    
+
   socket.on "setSkillState", (data) ->
     if player? then return
     selectedPlayer = room.findPlayer data.id
     selectedPlayer.setSkillState data.state, data.skillId
     approved = if data.state then "" else "not"
     console.log "LOG: Skill #{data.skillId} for #{selectedPlayer.username} #{approved} approved"
-  
+
   socket.on "setObsessionWorth", (data) ->
     if player? then return
     if data.amount < 0 or data.amount > 3 then return
     selectedPlayer = room.findPlayer data.id
     selectedPlayer.setObsessionWorth data.amount
-    console.log "LOG: Obsession for #{selectedPlayer.username} now worth #{data.amount} points" 
-    
+    console.log "LOG: Obsession for #{selectedPlayer.username} now worth #{data.amount} points"
+
   socket.on "obsessionCompletion", (data) ->
     if player? then return
     selectedPlayer = room.findPlayer data.id
     selectedPlayer.completeObsession()
     console.log "LOG: Obsession for #{selectedPlayer.username} completed"
-  
+
   socket.on "addPoint", (data) ->
     if player? then return
     selectedPlayer = room.findPlayer data.id
     selectedPlayer.givePoint data.amount
     console.log "LOG: Added #{data.amount} points to #{selectedPlayer.username}"
-    
+
   socket.on "disconnect", () ->
     if !room? then return
     room.removeUser userId
