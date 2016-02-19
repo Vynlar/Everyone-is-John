@@ -15,11 +15,11 @@ class Chat extends Component {
     };
     
     this._bind("toggleVisibility", "onMessage", "messageRecieved");
+    this.alertTone = new AudioPlayer("/sfx/ChatTone");
     socket.on("message", this.messageRecieved);
   }
   
   messageRecieved(data) {
-    console.log(data);
     let temp_messages = this.state.messages;
     let visibility = this.state.visible;
     let closed = this.state.closed;
@@ -27,7 +27,6 @@ class Chat extends Component {
     data.map(function(message) {
       let messageId = message.senderId == yourId ? (message.recipientId == null ?  "GM" : message.recipientId) : message.senderId;
       if (message.senderType == "GM" && (typeof isGM === 'undefined')) messageId = "GM";
-      console.log(yourId, messageId, message.senderId);
       if(temp_messages[messageId] == null) {
         temp_messages[messageId] = [];
         visibility[messageId] = true;
@@ -35,8 +34,15 @@ class Chat extends Component {
       }
       temp_messages[messageId].push(message);
     });
-    console.log(temp_messages);
+    
     this.setState({"messages": temp_messages, "visible": visibility, "closed": closed});
+    if(Cookies.get("sound") == "true") {
+      this.alertTone.play();
+      console.log('ChatSound!');
+    }
+    if(typeof navigator.vibrate === "function" && (Cookies.get("vibration") == "true")) {
+      navigator.vibrate(200);
+    }
   }
   
   onMessage(event) {
@@ -57,7 +63,6 @@ class Chat extends Component {
       
       temp_messages[UID].push(messageObject);
       this.setState({"messages": temp_messages});
-      console.log(temp_messages);
       socket.emit("sendMessage", { message: message, senderId: Cookies.get("userId"), recipientId: UID != "GM" ? UID : null});
     }
   }
